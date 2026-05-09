@@ -1,8 +1,9 @@
 """
 API routes for triggering and retrieving fragrance analysis.
 """
+import json
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.fragrance import Fragrance
@@ -12,13 +13,17 @@ from app.utils.dependencies import get_current_user
 from app.models.user import User
 from celery.result import AsyncResult
 from app.worker import celery_app
-import json
 
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 router = APIRouter(tags=["Analysis"])
 
+limiter = Limiter(key_func=get_remote_address)
 
 @router.post("/fragrances/{fragrance_id}/analyse")
+@limiter.limit("5/minute")
 def trigger_analysis(
+    request: Request,
     fragrance_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
