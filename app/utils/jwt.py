@@ -6,8 +6,8 @@ import os
 load_dotenv()
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-ALGORITHM = os.getenv("JWT_ALGORITHM")
-EXPIRY_MINUTES = int(os.getenv("JWT_EXPIRY_MINUTES"))
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+EXPIRY_MINUTES = int(os.getenv("JWT_EXPIRY_MINUTES", "1440"))
 
 if not SECRET_KEY:
     raise RuntimeError("JWT_SECRET_KEY is not set in environment variables.")
