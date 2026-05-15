@@ -42,7 +42,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://scentiq-chi.vercel.app/"
+        "https://scentiq-chi.vercel.app/",
+        "https://scentiq-production.up.railway.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
