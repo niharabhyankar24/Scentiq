@@ -15,6 +15,9 @@ from app.models.note import IntensityLevel, PyramidPosition, NoteSource
 import app.models.collection
 import app.models.user
 import app.models.note
+import app.models.ai_insights
+import app.models.pricing
+import app.models.similarity
 
 def get_or_create_family(db, name, description, occasions):
     """Get existing scent family or create if it doesn't exist."""
