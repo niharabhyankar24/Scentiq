@@ -39,34 +39,6 @@ def create_fragrance(fragrance: FragranceCreate, db: Session = Depends(get_db)):
 def get_fragrances(db: Session = Depends(get_db)):
     """Return all fragrances in the catalogue."""
     return db.query(Fragrance).all()
-
-@router.get("/fragrances/search")
-def search_fragrances(
-    q: str,
-    db: Session = Depends(get_db)
-):
-    """Search fragrances by name or brand."""
-    results = db.query(Fragrance).filter(
-        or_(
-            Fragrance.name.ilike(f"%{q}%"),
-            Fragrance.brand.ilike(f"%{q}%")
-        )
-    ).limit(20).all()
-
-    return [
-        {
-            "id": f.id,
-            "brand": f.brand,
-            "name": f.name,
-            "concentration": f.concentration,
-            "house_tier": f.house_tier,
-            "scent_family_name": (
-                f.scent_family.name 
-                if f.scent_family else None
-            )
-        }
-        for f in results
-    ]
     
 @router.get("/fragrances/brand/{brand_name}")
 def get_fragrances_by_brand(
@@ -113,13 +85,31 @@ def search_fragrances(
     q: str,
     db: Session = Depends(get_db)
 ):
-    """Search fragrances by name or brand."""
-    results = db.query(Fragrance).filter(
-        or_(
-            Fragrance.name.ilike(f"%{q}%"),
-            Fragrance.brand.ilike(f"%{q}%")
-        )
-    ).limit(20).all()
+    """Search fragrances by name, brand, or combined query."""
+    terms = q.strip().split()
+    
+    if len(terms) == 1:
+        term = f"%{terms[0]}%"
+        results = db.query(Fragrance).filter(
+            or_(
+                Fragrance.name.ilike(term),
+                Fragrance.brand.ilike(term)
+            )
+        ).limit(20).all()
+    else:
+        filters = []
+        for term in terms:
+            t = f"%{term}%"
+            filters.append(
+                or_(
+                    Fragrance.name.ilike(t),
+                    Fragrance.brand.ilike(t)
+                )
+            )
+        from sqlalchemy import and_
+        results = db.query(Fragrance).filter(
+            and_(*filters)
+        ).limit(20).all()
 
     return [
         {
@@ -129,9 +119,10 @@ def search_fragrances(
             "concentration": f.concentration,
             "house_tier": f.house_tier,
             "scent_family_name": (
-                f.scent_family.name 
+                f.scent_family.name
                 if f.scent_family else None
-            )
+            ),
+            "image_url": f.image_url
         }
         for f in results
     ]
