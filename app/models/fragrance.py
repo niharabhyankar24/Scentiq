@@ -45,3 +45,8 @@ class Fragrance(Base):
     decant_listings = relationship(
         "DecantListing", back_populates="fragrance"
     )
+    refresh_interval_days = Column(
+        Integer,
+        default=90,
+        nullable=False
+    )

@@ -3,7 +3,7 @@ SQLAlchemy model for storing AI generated fragrance insights.
 """
 
 from sqlalchemy import (
-    Column, Integer, String, Float, DateTime, Text
+    Column, Integer, String, Float, DateTime, Text, Date
 )
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
@@ -35,3 +35,5 @@ class AIInsights(Base):
     last_updated = Column(DateTime, default=datetime.utcnow)
 
     fragrance = relationship("Fragrance", back_populates="insights")
+    analysis_refresh_due = Column(Date, nullable=True)
+    

@@ -9,6 +9,8 @@ from slowapi.util import get_remote_address
 
 from app.database import get_db
 from app.models.user import User
+from app.schemas.user import UserResponse
+from app.utils.dependencies import get_current_user
 from app.schemas.user import UserCreate, Token, LoginRequest
 from app.utils.security import hash_password, verify_password
 from app.utils.jwt import create_access_token
@@ -79,3 +81,16 @@ def login(
         )
     token = create_access_token(data={"sub": str(user.id)})
     return Token(access_token=token, token_type="bearer")
+
+@router.get("/me", response_model=UserResponse)
+def get_me(
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Return the currently authenticated user's profile.
+
+    Used by the frontend to identify the logged-in user
+    and check their admin status. Returns 401 if not
+    authenticated (handled by get_current_user).
+    """
+    return current_user

@@ -13,6 +13,7 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     tracking_enabled = Column(Boolean, default=False, nullable=False)
+    is_admin = Column(Boolean, default=False, nullable=False)
 
     collection = relationship("Collection", back_populates="user", cascade="all, delete-orphan")
     wishlist = relationship("Wishlist", back_populates="user", cascade="all, delete-orphan")

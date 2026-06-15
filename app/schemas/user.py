@@ -11,6 +11,7 @@ class UserResponse(BaseModel):
     email: str
     username: str
     tracking_enabled: bool
+    is_admin: bool
 
     class Config:
         from_attributes = True

@@ -26,6 +26,7 @@ from app.routes.analysis import router as analysis_router
 from app.routes.pricing import router as pricing_router
 from app.routes.similarity import router as similarity_router
 from app.routes.note import router as note_router
+from app.routes import admin
 
 limiter = Limiter(key_func=get_remote_address)
 
@@ -59,7 +60,7 @@ app.include_router(analysis_router, prefix="/api")
 app.include_router(pricing_router, prefix="/api")
 app.include_router(similarity_router, prefix="/api")
 app.include_router(note_router, prefix="/api")
-
+app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 
 @app.get("/")
 def root():
