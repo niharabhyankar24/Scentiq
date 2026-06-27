@@ -25,10 +25,33 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
+    <nav className="sticky top-0 z-50 bg-white dark:bg-[#100f0d] border-b border-neutral-200 dark:border-white/[0.06]">
       <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/">
-          <span className="text-lg font-medium tracking-tight text-gray-900 dark:text-white">
+        <Link href="/" className="flex items-center gap-2">
+          <svg
+            width="14"
+            height="20"
+            viewBox="0 0 14 20"
+            fill="none"
+            aria-hidden="true"
+          >
+          <rect
+            x="4.5"
+            y="0.5"
+            width="5"
+            height="3"
+            rx="0.5"
+            stroke="#c9a254"
+            strokeWidth="1"
+          />
+          <path
+            d="M3 6 L11 6 L11.5 19 L2.5 19 Z"
+            stroke="#c9a254"
+            strokeWidth="1"
+            fill="none"
+          />
+          </svg>
+          <span className="font-serif text-2xl tracking-tight text-neutral-900 dark:text-white">
             Scentiq
           </span>
         </Link>

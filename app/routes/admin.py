@@ -309,3 +309,50 @@ def admin_dashboard(
         },
         "fragrances": items
     }
+
+@router.post("/fragrances/{fragrance_id}/refresh-analysis")
+def admin_refresh_analysis(
+    fragrance_id: int,
+    current_user: User = Depends(get_admin_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Manually queue an AI analysis refresh for a fragrance.
+
+    Updates analysis_refresh_due forward by the fragrance's
+    refresh_interval_days, then dispatches the Celery task.
+    The endpoint returns immediately; analysis completes
+    asynchronously in the worker.
+    """
+    fragrance = db.query(Fragrance).filter(
+        Fragrance.id == fragrance_id
+    ).first()
+    if not fragrance:
+        raise HTTPException(404, "Fragrance not found")
+
+    # Ensure an AIInsights row exists. Defensive — Step 7
+    # always creates one, but a fragrance could theoretically
+    # exist without one (e.g. seeded before V2).
+    insights = db.query(AIInsights).filter(
+        AIInsights.fragrance_id == fragrance_id
+    ).first()
+    if not insights:
+        insights = AIInsights(fragrance_id=fragrance_id)
+        db.add(insights)
+
+    # Push the next refresh date forward.
+    insights.analysis_refresh_due = date.today() + timedelta(
+        days=fragrance.refresh_interval_days
+    )
+    db.commit()
+
+    # Queue the task.
+    from app.tasks import analyse_fragrance_task
+    task = analyse_fragrance_task.delay(fragrance_id)
+
+    return {
+        "queued": True,
+        "task_id": task.id,
+        "fragrance_id": fragrance_id,
+        "next_refresh_due": insights.analysis_refresh_due.isoformat()
+    }

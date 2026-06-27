@@ -12,7 +12,7 @@ import app.models.ai_insights
 import app.models.pricing
 import app.models.similarity
 
-@celery_app.task(bind=True)
+@celery_app.task(bind=True, ignore_result=True)
 def analyse_fragrance_task(self, fragrance_id: int) -> dict:
     """
     Background task that runs the full AI analysis pipeline
@@ -37,5 +37,89 @@ def analyse_fragrance_task(self, fragrance_id: int) -> dict:
             meta={"status": "failed", "error": str(e)}
         )
         raise
+    finally:
+        db.close()
+        
+@celery_app.task(bind=True)
+def analyse_fragrance_task(self, fragrance_id: int) -> dict:
+    """
+    Background task that runs the full AI analysis pipeline
+    for a fragrance. Returns structured insights on completion.
+
+    On successful completion, pushes the analysis_refresh_due
+    date forward by the fragrance's refresh_interval_days so
+    the Beat scanner doesn't immediately re-queue it.
+    """
+    from datetime import date, timedelta
+    from app.models.fragrance import Fragrance
+    from app.models.ai_insights import AIInsights
+
+    db = SessionLocal()
+    try:
+        from app.ai.analyser import analyse_fragrance
+        self.update_state(
+            state="PROGRESS",
+            meta={"status": "Fetching community content..."}
+        )
+        insights_result = analyse_fragrance(fragrance_id, db)
+
+        # Advance the refresh date now that analysis succeeded.
+        fragrance = db.query(Fragrance).filter(
+            Fragrance.id == fragrance_id
+        ).first()
+        insights_row = db.query(AIInsights).filter(
+            AIInsights.fragrance_id == fragrance_id
+        ).first()
+        if fragrance and insights_row:
+            insights_row.analysis_refresh_due = (
+                date.today()
+                + timedelta(days=fragrance.refresh_interval_days)
+            )
+            db.commit()
+
+        return {
+            "status": "complete",
+            "fragrance_id": fragrance_id,
+            "insights": insights_result
+        }
+    except Exception as e:
+        self.update_state(
+            state="FAILURE",
+            meta={"status": "failed", "error": str(e)}
+        )
+        raise
+    finally:
+        db.close()
+        
+@celery_app.task(name="scan_and_refresh_due_analyses")
+def scan_and_refresh_due_analyses():
+    """
+    Scan AIInsights for fragrances whose analysis is due
+    for refresh, and dispatch analysis tasks for each.
+
+    Runs daily via Celery Beat. The actual analysis runs
+    as a separate task per fragrance, queued in the same
+    worker pool. This keeps the scanner fast and the
+    work parallelisable.
+
+    Returns a count of dispatched tasks for observability.
+    """
+    from app.models.ai_insights import AIInsights
+    from datetime import date
+
+    db = SessionLocal()
+    try:
+        due = db.query(AIInsights).filter(
+            AIInsights.analysis_refresh_due != None,
+            AIInsights.analysis_refresh_due <= date.today()
+        ).all()
+
+        for insights in due:
+            analyse_fragrance_task.delay(insights.fragrance_id)
+
+        return {
+            "dispatched": len(due),
+            "fragrance_ids": [i.fragrance_id for i in due]
+        }
     finally:
         db.close()

@@ -178,7 +178,7 @@ def call_claude(user_prompt: str) -> dict:
     """
     client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model="claude-sonnet-4-5",
         max_tokens=1000,
         system=SYSTEM_PROMPT,
         messages=[
@@ -214,7 +214,7 @@ def store_insights(
     if existing:
         existing.perceived_summary = perceived_summary
         existing.snapshot_draft = insights.get(
-            "character_snapshot"
+            "character_snapshot", []
         )
         existing.sentiment = insights.get("sentiment")
         existing.confidence_score = insights.get(

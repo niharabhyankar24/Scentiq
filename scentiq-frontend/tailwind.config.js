@@ -7,7 +7,12 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        serif: ['var(--font-playfair)', 'serif'],
+        sans: ['var(--font-dm-sans)', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
