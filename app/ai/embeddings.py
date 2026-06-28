@@ -6,7 +6,6 @@ for similarity calculations.
 
 import json
 import numpy as np
-from sentence_transformers import SentenceTransformer
 from sqlalchemy.orm import Session
 from app.models.fragrance import Fragrance
 from app.models.note import FragranceNote, PyramidPosition
@@ -23,6 +22,9 @@ def get_model() -> SentenceTransformer:
     """
     global _model
     if _model is None:
+        # Lazy import: only triggers when a similarity
+        # endpoint is actually called. Keeps idle memory low.
+        from sentence_transformers import SentenceTransformer
         _model = SentenceTransformer("all-MiniLM-L6-v2")
     return _model
 
