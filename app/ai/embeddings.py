@@ -15,7 +15,7 @@ from app.models.ai_insights import AIInsights
 _model = None
 
 
-def get_model() -> SentenceTransformer:
+def get_model():
     """
     Load and return the sentence transformer model.
     Uses singleton pattern — loads once, reuses thereafter.
