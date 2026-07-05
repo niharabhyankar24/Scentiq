@@ -44,6 +44,21 @@ Your rules:
   is not discussed in the source material, return null.
 - Never hallucinate notes or characteristics not present
   in the source material.
+For the character_full field:
+- Write in the voice of an experienced fragrance enthusiast,
+  not a marketing copywriter.
+- Aim for 3 to 5 sentences of sensory, evocative language.
+- Describe how the fragrance evolves on skin, what it evokes,
+  what it reminds people of.
+- Weave performance in naturally through the description
+  rather than as separate tags. "Opens with...", "settles into...",
+  "lingers as..." are stronger than "long-lasting" as a label.
+- Never use brand marketing phrases. No "sophisticated,"
+  "captivating," "unforgettable," "signature scent."
+- Ground every claim in the source material. If the community
+  is divided or the data is thin, acknowledge it directly.
+- Prefer specific sensory references over abstract adjectives.
+  "Reminds people of an old library" beats "sophisticated."
 - For community_also_mentions: only include fragrances
   explicitly named in the source material as similar,
   alternative, or frequently compared. Never suggest
@@ -99,6 +114,7 @@ Return a JSON object with exactly this structure:
   ],
   "character_snapshot": "string, max 200 characters,\
  plain English, no marketing language",
+ "character_full": "string, 3-5 sentences, sensory language, no marketing",
   "occasions": ["string"],
   "performance": {{
     "projection": "light|moderate|strong|beast-mode",
@@ -223,6 +239,8 @@ def store_insights(
         existing.full_insights = json.dumps(insights)
         existing.sources_used = json.dumps(sources_used)
         existing.last_updated = datetime.utcnow()
+        existing.character_full = insights.get("character_full")
+        
     else:
         record = AIInsights(
             fragrance_id=fragrance_id,
@@ -232,7 +250,8 @@ def store_insights(
             confidence_score=insights.get("confidence_score", 0.0),
             full_insights=json.dumps(insights),
             sources_used=json.dumps(sources_used),
-            last_updated=datetime.utcnow()
+            last_updated=datetime.utcnow(),
+            character_full=insights.get("character_full"),
         )
         db.add(record)
 

@@ -33,7 +33,8 @@ class AIInsights(Base):
     full_insights = Column(Text, nullable=True)
     sources_used = Column(Text, nullable=True)
     last_updated = Column(DateTime, default=datetime.utcnow)
-
+    character_full = Column(Text, nullable=True)
+    
     fragrance = relationship("Fragrance", back_populates="insights")
     analysis_refresh_due = Column(Date, nullable=True)
     
