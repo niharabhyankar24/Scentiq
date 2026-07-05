@@ -10,6 +10,7 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 from datetime import datetime
 
+from pgvector.sqlalchemy import Vector
 
 class AIInsights(Base):
     """
@@ -37,4 +38,5 @@ class AIInsights(Base):
     
     fragrance = relationship("Fragrance", back_populates="insights")
     analysis_refresh_due = Column(Date, nullable=True)
+    embedding = Column(Vector(384), nullable=True)
     
