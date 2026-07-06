@@ -81,14 +81,16 @@ def analyse_fragrance_task(self, fragrance_id: int) -> dict:
         db.close()
                 
 @celery_app.task(bind=True)
+@celery_app.task(bind=True, ignore_result=True)
 def analyse_fragrance_task(self, fragrance_id: int) -> dict:
     """
     Background task that runs the full AI analysis pipeline
-    for a fragrance. Returns structured insights on completion.
+    for a fragrance and generates its embedding.
 
-    On successful completion, pushes the analysis_refresh_due
-    date forward by the fragrance's refresh_interval_days so
-    the Beat scanner doesn't immediately re-queue it.
+    Pipeline:
+    1. Fetch community content, call Claude, store insights.
+    2. Generate a fresh embedding from the updated data.
+    3. Advance analysis_refresh_due by refresh_interval_days.
     """
     from datetime import date, timedelta
     from app.models.fragrance import Fragrance
@@ -97,11 +99,27 @@ def analyse_fragrance_task(self, fragrance_id: int) -> dict:
     db = SessionLocal()
     try:
         from app.ai.analyser import analyse_fragrance
+        from app.ai.embeddings import generate_embedding
+
         self.update_state(
             state="PROGRESS",
             meta={"status": "Fetching community content..."}
         )
         insights_result = analyse_fragrance(fragrance_id, db)
+
+        # Generate and save embedding from the fresh data.
+        self.update_state(
+            state="PROGRESS",
+            meta={"status": "Generating embedding..."}
+        )
+        vector = generate_embedding(db, fragrance_id)
+        if vector is not None:
+            insights_row = db.query(AIInsights).filter(
+                AIInsights.fragrance_id == fragrance_id
+            ).first()
+            if insights_row:
+                insights_row.embedding = vector
+                db.commit()
 
         # Advance the refresh date now that analysis succeeded.
         fragrance = db.query(Fragrance).filter(
