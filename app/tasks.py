@@ -27,23 +27,14 @@ def analyse_fragrance_task(self, fragrance_id: int) -> dict:
     from datetime import date, timedelta
     from app.models.fragrance import Fragrance
     from app.models.ai_insights import AIInsights
+    from app.ai.analyser import analyse_fragrance
+    from app.ai.embeddings import generate_embedding
 
     db = SessionLocal()
     try:
-        from app.ai.analyser import analyse_fragrance
-        from app.ai.embeddings import generate_embedding
-
-        self.update_state(
-            state="PROGRESS",
-            meta={"status": "Fetching community content..."}
-        )
         insights_result = analyse_fragrance(fragrance_id, db)
 
         # Generate and save embedding from the fresh data.
-        self.update_state(
-            state="PROGRESS",
-            meta={"status": "Generating embedding..."}
-        )
         vector = generate_embedding(db, fragrance_id)
         if vector is not None:
             insights_row = db.query(AIInsights).filter(
@@ -72,15 +63,8 @@ def analyse_fragrance_task(self, fragrance_id: int) -> dict:
             "fragrance_id": fragrance_id,
             "insights": insights_result
         }
-    except Exception as e:
-        self.update_state(
-            state="FAILURE",
-            meta={"status": "failed", "error": str(e)}
-        )
-        raise
     finally:
         db.close()
-
 
 @celery_app.task(name="scan_and_refresh_due_analyses")
 def scan_and_refresh_due_analyses():
