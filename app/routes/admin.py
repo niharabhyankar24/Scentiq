@@ -356,3 +356,56 @@ def admin_refresh_analysis(
         "fragrance_id": fragrance_id,
         "next_refresh_due": insights.analysis_refresh_due.isoformat()
     }
+
+@router.post("/backfill-embeddings")
+def admin_backfill_embeddings(
+    current_user: User = Depends(get_admin_user),
+    db: Session = Depends(get_db)
+):
+    """
+    One-off backfill of embeddings for every fragrance.
+
+    Generates fresh embeddings from existing analysis data
+    without re-running the AI pipeline. Idempotent — safe
+    to call multiple times. Meant to be removed after the
+    initial run.
+    """
+    from app.ai.embeddings import generate_embedding
+    from app.models.ai_insights import AIInsights
+
+    fragrances = db.query(Fragrance).all()
+    succeeded = 0
+    skipped = 0
+    failed = []
+
+    for fragrance in fragrances:
+        try:
+            vector = generate_embedding(db, fragrance.id)
+            if vector is None:
+                skipped += 1
+                continue
+
+            insights_row = db.query(AIInsights).filter(
+                AIInsights.fragrance_id == fragrance.id
+            ).first()
+            if not insights_row:
+                insights_row = AIInsights(
+                    fragrance_id=fragrance.id
+                )
+                db.add(insights_row)
+
+            insights_row.embedding = vector
+            db.commit()
+            succeeded += 1
+        except Exception as e:
+            failed.append({
+                "fragrance_id": fragrance.id,
+                "error": str(e)
+            })
+
+    return {
+        "total": len(fragrances),
+        "succeeded": succeeded,
+        "skipped": skipped,
+        "failed": failed
+    }
