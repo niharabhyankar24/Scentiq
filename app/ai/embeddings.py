@@ -318,5 +318,5 @@ def generate_embedding(
 
     text = build_fragrance_text(db, fragrance, insights)
     model = get_model()
-    vector = model.encode(text)
+    vector = model.encode(text, convert_to_numpy=True)
     return vector.tolist()
