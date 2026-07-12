@@ -110,20 +110,6 @@ def build_text_blob(fragrance: Fragrance, db: Session) -> str:
     return " ".join(parts)
 
 
-def generate_embedding(
-    fragrance: Fragrance,
-    db: Session
-) -> np.ndarray:
-    """
-    Generate a vector embedding for a fragrance.
-    Returns a numpy array of 384 floats.
-    """
-    model = get_model()
-    blob = build_text_blob(fragrance, db)
-    embedding = model.encode(blob)
-    return embedding
-
-
 def embedding_to_str(embedding: np.ndarray) -> str:
     """Convert a numpy embedding array to a JSON string."""
     return json.dumps(embedding.tolist())
