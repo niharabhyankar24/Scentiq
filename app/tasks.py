@@ -36,26 +36,14 @@ def analyse_fragrance_task(self, fragrance_id: int) -> dict:
 
         # Generate and save embedding from the fresh data.
         # Generate and save embedding from the fresh data.
-        print(f"[EMBED] Starting for fragrance {fragrance_id}", flush=True)
         vector = generate_embedding(db, fragrance_id)
-        print(f"[EMBED] Vector generated: type={type(vector).__name__}, is_none={vector is None}", flush=True)
         if vector is not None:
-            print(f"[EMBED] Vector length: {len(vector)}", flush=True)
             insights_row = db.query(AIInsights).filter(
                 AIInsights.fragrance_id == fragrance_id
             ).first()
-            print(f"[EMBED] insights_row found: {insights_row is not None}", flush=True)
             if insights_row:
-                try:
-                    insights_row.embedding = vector
-                    db.commit()
-                    print(f"[EMBED] Commit succeeded for {fragrance_id}", flush=True)
-                except Exception as e:
-                    print(f"[EMBED] Commit FAILED: {type(e).__name__}: {e}", flush=True)
-                    db.rollback()
-        else:
-            print(f"[EMBED] Vector is None, skipping save", flush=True)
-        # Advance the refresh date now that analysis succeeded.
+                insights_row.embedding = vector
+                db.commit()        # Advance the refresh date now that analysis succeeded.
         fragrance = db.query(Fragrance).filter(
             Fragrance.id == fragrance_id
         ).first()
