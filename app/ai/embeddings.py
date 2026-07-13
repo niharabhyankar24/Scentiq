@@ -29,7 +29,10 @@ def get_model():
         # Lazy import: only triggers when a similarity
         # endpoint is actually called. Keeps idle memory low.
         from sentence_transformers import SentenceTransformer
-        _model = SentenceTransformer("all-MiniLM-L6-v2")
+        _model = SentenceTransformer(
+            "all-MiniLM-L6-v2",
+            backend="torch"
+        )
     return _model
 
 
