@@ -31,9 +31,11 @@ def analyse_fragrance_task(self, fragrance_id: int) -> dict:
     from app.ai.embeddings import generate_embedding
 
     db = SessionLocal()
+    print(f"[TASK] Starting task for fragrance {fragrance_id}", flush=True)
+
     try:
         insights_result = analyse_fragrance(fragrance_id, db)
-
+        print(f"[TASK] analyse_fragrance returned for {fragrance_id}, type={type(insights_result)}", flush=True)
         # Generate and save embedding from the fresh data.
         # Generate and save embedding from the fresh data.
         vector = generate_embedding(db, fragrance_id)
