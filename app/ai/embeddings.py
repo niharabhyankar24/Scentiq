@@ -30,9 +30,7 @@ def get_model():
         # endpoint is actually called. Keeps idle memory low.
         from sentence_transformers import SentenceTransformer
         _model = SentenceTransformer(
-            "all-MiniLM-L6-v2",
-            backend="torch"
-        )
+            "all-MiniLM-L6-v2")
     return _model
 
 
