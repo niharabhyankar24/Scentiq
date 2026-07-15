@@ -25,7 +25,7 @@ class SemanticSearchRequest(BaseModel):
 
 # Minimum similarity threshold — results below this are
 # excluded because they don't meaningfully match the query.
-SIMILARITY_THRESHOLD = 0.5
+SIMILARITY_THRESHOLD = 0.3
 
 
 @router.post("/semantic")
