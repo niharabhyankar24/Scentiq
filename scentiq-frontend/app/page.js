@@ -30,6 +30,7 @@ const TOP_PICKS = [
   }
 ]
 
+
 export default function Home() {
   const [query, setQuery] = useState("")
   const [results, setResults] = useState([])
