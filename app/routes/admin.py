@@ -13,9 +13,11 @@ from app.utils.dependencies import get_admin_user
 from datetime import date, timedelta
 from sqlalchemy.orm import Session, joinedload
 from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional
+from pydantic import BaseModel
 
 from app.database import get_db
-from app.models.fragrance import Fragrance
+from app.models.fragrance import Fragrance, ScentFamily
 from app.models.ai_insights import AIInsights
 from app.schemas.fragrance import (
     FragranceCreate, FragranceResponse,
@@ -356,3 +358,178 @@ def admin_refresh_analysis(
         "fragrance_id": fragrance_id,
         "next_refresh_due": insights.analysis_refresh_due.isoformat()
     }
+
+class BulkFragranceNote(BaseModel):
+    """Notes for a single fragrance in the bulk import payload."""
+    top: Optional[list[str]] = None
+    heart: Optional[list[str]] = None
+    base: Optional[list[str]] = None
+
+
+class BulkFragranceEntry(BaseModel):
+    """A single fragrance in the bulk import payload."""
+    brand: str
+    name: str
+    concentration: str
+    gender_marker: str
+    house_tier: str
+    scent_family: str
+    release_year: Optional[int] = None
+    official_description: Optional[str] = None
+    refresh_interval_days: Optional[int] = 90
+    notes: Optional[BulkFragranceNote] = None
+
+
+class BulkImportRequest(BaseModel):
+    """Full bulk import request."""
+    fragrances: list[BulkFragranceEntry]
+
+
+@router.post("/bulk-import")
+def admin_bulk_import(
+    payload: BulkImportRequest,
+    current_user: User = Depends(get_admin_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Bulk import fragrances with their notes.
+
+    Idempotent by brand + name — existing fragrances are
+    skipped, not overwritten. Notes are created if new,
+    reused if existing. Scent families are created if new.
+
+    Analysis and embeddings are NOT triggered — those run
+    later via admin refresh or the Beat scheduler.
+    """
+    created = []
+    skipped = []
+    failed = []
+
+    for entry in payload.fragrances:
+        try:
+            # Skip if already exists (idempotent).
+            existing = db.query(Fragrance).filter(
+                Fragrance.brand == entry.brand,
+                Fragrance.name == entry.name
+            ).first()
+            if existing:
+                skipped.append({
+                    "brand": entry.brand,
+                    "name": entry.name,
+                    "reason": "already exists",
+                    "id": existing.id
+                })
+                continue
+
+            # Resolve scent family (create if new).
+            scent_family = db.query(ScentFamily).filter(
+                ScentFamily.name.ilike(entry.scent_family)
+            ).first()
+            if not scent_family:
+                scent_family = ScentFamily(name=entry.scent_family)
+                db.add(scent_family)
+                db.flush()
+
+            # Create the fragrance.
+            fragrance = Fragrance(
+                brand=entry.brand,
+                name=entry.name,
+                concentration=entry.concentration,
+                gender_marker=entry.gender_marker,
+                house_tier=entry.house_tier,
+                scent_family_id=scent_family.id,
+                release_year=entry.release_year,
+                official_description=entry.official_description,
+                refresh_interval_days=entry.refresh_interval_days or 90
+            )
+            db.add(fragrance)
+            db.flush()
+
+            # Assign notes if provided.
+            if entry.notes:
+                _assign_note_list(
+                    db, fragrance.id,
+                    entry.notes.top or [],
+                    PyramidPosition.top
+                )
+                _assign_note_list(
+                    db, fragrance.id,
+                    entry.notes.heart or [],
+                    PyramidPosition.heart
+                )
+                _assign_note_list(
+                    db, fragrance.id,
+                    entry.notes.base or [],
+                    PyramidPosition.base
+                )
+
+            db.commit()
+            created.append({
+                "id": fragrance.id,
+                "brand": entry.brand,
+                "name": entry.name
+            })
+
+        except Exception as e:
+            db.rollback()
+            failed.append({
+                "brand": entry.brand,
+                "name": entry.name,
+                "error": str(e)
+            })
+
+    return {
+        "total": len(payload.fragrances),
+        "created": len(created),
+        "skipped": len(skipped),
+        "failed": len(failed),
+        "created_list": created,
+        "skipped_list": skipped,
+        "failed_list": failed
+    }
+
+
+def _assign_note_list(
+    db: Session,
+    fragrance_id: int,
+    note_names: list[str],
+    position: PyramidPosition
+):
+    """
+    Helper: assign a list of note names to a fragrance at
+    a pyramid position. Creates notes that don't exist yet.
+    Silently skips duplicates (idempotent).
+    """
+    for note_name in note_names:
+        note_name = note_name.strip()
+        if not note_name:
+            continue
+
+        note = db.query(Note).filter(
+            Note.name.ilike(note_name)
+        ).first()
+        if not note:
+            note = Note(
+                name=note_name,
+                category="unknown"
+            )
+            db.add(note)
+            db.flush()
+
+        # Check if link exists already.
+        existing_link = db.query(FragranceNote).filter(
+            FragranceNote.fragrance_id == fragrance_id,
+            FragranceNote.note_id == note.id,
+            FragranceNote.source == NoteSource.official
+        ).first()
+        if existing_link:
+            continue
+
+        link = FragranceNote(
+            fragrance_id=fragrance_id,
+            note_id=note.id,
+            pyramid_position=position,
+            source=NoteSource.official
+        )
+        db.add(link)
+    db.flush()

@@ -1,0 +1,2749 @@
+{
+  "fragrances": [
+    {
+      "brand": "Dior",
+      "name": "Sauvage",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Aromatic",
+      "release_year": 2015,
+      "official_description": "Fresh spicy aromatic built on Calabrian bergamot and ambroxan.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Pepper"
+        ],
+        "heart": [
+          "Lavender",
+          "Sichuan Pepper",
+          "Geranium"
+        ],
+        "base": [
+          "Ambroxan",
+          "Cedar",
+          "Labdanum"
+        ]
+      }
+    },
+    {
+      "brand": "Chanel",
+      "name": "Bleu de Chanel",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Woody Aromatic",
+      "release_year": 2014,
+      "official_description": "Citrus-woody aromatic centered on grapefruit, ginger, and sandalwood.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Grapefruit",
+          "Lemon",
+          "Mint"
+        ],
+        "heart": [
+          "Ginger",
+          "Nutmeg",
+          "Jasmine"
+        ],
+        "base": [
+          "Sandalwood",
+          "Cedar",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Giorgio Armani",
+      "name": "Acqua di Gio",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Fresh",
+      "release_year": 1996,
+      "official_description": "Marine-citrus fresh fragrance inspired by the Mediterranean coast.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Neroli",
+          "Lime"
+        ],
+        "heart": [
+          "Sea Notes",
+          "Jasmine",
+          "Rosemary"
+        ],
+        "base": [
+          "Musk",
+          "Cedar",
+          "Patchouli"
+        ]
+      }
+    },
+    {
+      "brand": "Versace",
+      "name": "Eros",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Aromatic",
+      "release_year": 2012,
+      "official_description": "Sweet aromatic contrast of mint, green apple, and vanilla-tonka.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Mint",
+          "Green Apple",
+          "Lemon"
+        ],
+        "heart": [
+          "Tonka Bean",
+          "Geranium",
+          "Ambroxan"
+        ],
+        "base": [
+          "Vanilla",
+          "Vetiver",
+          "Oakmoss",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Paco Rabanne",
+      "name": "1 Million",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Amber",
+      "release_year": 2008,
+      "official_description": "Sweet spicy amber with blood mandarin, cinnamon, and leather.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Blood Mandarin",
+          "Grapefruit",
+          "Mint"
+        ],
+        "heart": [
+          "Cinnamon",
+          "Rose",
+          "Spice Notes"
+        ],
+        "base": [
+          "Amber",
+          "Leather",
+          "Patchouli"
+        ]
+      }
+    },
+    {
+      "brand": "Yves Saint Laurent",
+      "name": "La Nuit de L'Homme",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Aromatic",
+      "release_year": 2009,
+      "official_description": "Soft spicy evening scent led by cardamom, lavender, and cedar.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Cardamom",
+          "Bergamot"
+        ],
+        "heart": [
+          "Lavender",
+          "Cedar"
+        ],
+        "base": [
+          "Vetiver",
+          "Coumarin"
+        ]
+      }
+    },
+    {
+      "brand": "Jean Paul Gaultier",
+      "name": "Le Male",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Fougere",
+      "release_year": 1995,
+      "official_description": "Iconic sweet fougere pairing lavender and mint with vanilla.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Lavender",
+          "Mint",
+          "Bergamot"
+        ],
+        "heart": [
+          "Cinnamon",
+          "Cumin",
+          "Orange Blossom"
+        ],
+        "base": [
+          "Vanilla",
+          "Tonka Bean",
+          "Sandalwood"
+        ]
+      }
+    },
+    {
+      "brand": "Prada",
+      "name": "L'Homme",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Fresh",
+      "release_year": 2016,
+      "official_description": "Clean iris-neroli composition with a powdery, soapy character.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Iris",
+          "Neroli",
+          "Black Pepper"
+        ],
+        "heart": [
+          "Geranium",
+          "Mate"
+        ],
+        "base": [
+          "Cedar",
+          "Patchouli",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Dolce & Gabbana",
+      "name": "The One for Men",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Amber",
+      "release_year": 2015,
+      "official_description": "Warm tobacco-amber with grapefruit, ginger, and cardamom.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Grapefruit",
+          "Coriander",
+          "Basil"
+        ],
+        "heart": [
+          "Ginger",
+          "Cardamom",
+          "Orange Blossom"
+        ],
+        "base": [
+          "Tobacco",
+          "Amber",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Chanel",
+      "name": "Allure Homme Sport",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Fresh",
+      "release_year": 2004,
+      "official_description": "Sporty citrus-musk with orange, marine notes, and tonka.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Orange",
+          "Sea Notes",
+          "Aldehydes"
+        ],
+        "heart": [
+          "Black Pepper",
+          "Neroli",
+          "Cedar"
+        ],
+        "base": [
+          "Tonka Bean",
+          "White Musk",
+          "Vanilla",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Viktor & Rolf",
+      "name": "Spicebomb",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Amber",
+      "release_year": 2012,
+      "official_description": "Explosive spicy blend of cinnamon, saffron, tobacco, and leather.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Grapefruit",
+          "Pink Pepper"
+        ],
+        "heart": [
+          "Cinnamon",
+          "Saffron",
+          "Paprika"
+        ],
+        "base": [
+          "Tobacco",
+          "Leather",
+          "Vetiver"
+        ]
+      }
+    },
+    {
+      "brand": "Dior",
+      "name": "Dior Homme Intense",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Woody",
+      "release_year": 2011,
+      "official_description": "Powdery iris masculine anchored by ambrette, pear, and vetiver.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Lavender"
+        ],
+        "heart": [
+          "Iris",
+          "Ambrette",
+          "Pear"
+        ],
+        "base": [
+          "Vetiver",
+          "Virginia Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Lancome",
+      "name": "La Vie Est Belle",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 2012,
+      "official_description": "Iris gourmand built on praline, blackcurrant, and patchouli.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Black Currant",
+          "Pear"
+        ],
+        "heart": [
+          "Iris",
+          "Jasmine",
+          "Orange Blossom"
+        ],
+        "base": [
+          "Praline",
+          "Vanilla",
+          "Patchouli",
+          "Tonka Bean"
+        ]
+      }
+    },
+    {
+      "brand": "Dior",
+      "name": "Miss Dior",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 2017,
+      "official_description": "Modern rose-centric floral with citrus opening and musky drydown.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Blood Orange",
+          "Mandarin"
+        ],
+        "heart": [
+          "Grasse Rose",
+          "Damask Rose",
+          "Lily-of-the-Valley"
+        ],
+        "base": [
+          "Patchouli",
+          "White Musk",
+          "Rosewood"
+        ]
+      }
+    },
+    {
+      "brand": "Chanel",
+      "name": "Coco Mademoiselle",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Chypre",
+      "release_year": 2001,
+      "official_description": "Fresh oriental-chypre pairing bright citrus with rose, jasmine, and patchouli.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Orange",
+          "Bergamot",
+          "Grapefruit"
+        ],
+        "heart": [
+          "Rose",
+          "Jasmine",
+          "Litchi"
+        ],
+        "base": [
+          "Patchouli",
+          "Vetiver",
+          "Vanilla",
+          "White Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Yves Saint Laurent",
+      "name": "Black Opium",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 2014,
+      "official_description": "Coffee-vanilla gourmand brightened by white flowers and pear.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Pink Pepper",
+          "Orange Blossom",
+          "Pear"
+        ],
+        "heart": [
+          "Coffee",
+          "Jasmine"
+        ],
+        "base": [
+          "Vanilla",
+          "Patchouli",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Viktor & Rolf",
+      "name": "Flowerbomb",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 2005,
+      "official_description": "Dense floral bouquet over a sweet patchouli-vanilla base.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Tea",
+          "Bergamot"
+        ],
+        "heart": [
+          "Jasmine",
+          "Freesia",
+          "Rose",
+          "Orchid"
+        ],
+        "base": [
+          "Patchouli",
+          "Vanilla",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Carolina Herrera",
+      "name": "Good Girl",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Amber",
+      "release_year": 2016,
+      "official_description": "Contrasting almond-coffee opening with tuberose and dark cocoa-tonka base.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Almond",
+          "Coffee",
+          "Bergamot"
+        ],
+        "heart": [
+          "Tuberose",
+          "Jasmine Sambac",
+          "Orange Blossom"
+        ],
+        "base": [
+          "Tonka Bean",
+          "Cacao",
+          "Vanilla",
+          "Sandalwood"
+        ]
+      }
+    },
+    {
+      "brand": "Giorgio Armani",
+      "name": "Si",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Chypre",
+      "release_year": 2013,
+      "official_description": "Modern fruity chypre centered on blackcurrant nectar and rose.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Blackcurrant"
+        ],
+        "heart": [
+          "Rose",
+          "Freesia"
+        ],
+        "base": [
+          "Patchouli",
+          "Vanilla",
+          "Woody Notes"
+        ]
+      }
+    },
+    {
+      "brand": "Dior",
+      "name": "J'adore",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 1999,
+      "official_description": "Luminous white floral bouquet of ylang-ylang, rose, and jasmine.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Pear",
+          "Mandarin"
+        ],
+        "heart": [
+          "Ylang-Ylang",
+          "Damascus Rose",
+          "Jasmine Sambac"
+        ],
+        "base": [
+          "Musk",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Chloe",
+      "name": "Chloe Eau de Parfum",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 2008,
+      "official_description": "Powdery rose signature with peony, litchi, and warm amber.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Peony",
+          "Litchi",
+          "Freesia"
+        ],
+        "heart": [
+          "Rose",
+          "Magnolia",
+          "Lily of the Valley"
+        ],
+        "base": [
+          "Cedar",
+          "Amber",
+          "Honey"
+        ]
+      }
+    },
+    {
+      "brand": "Marc Jacobs",
+      "name": "Daisy",
+      "concentration": "EDT",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 2007,
+      "official_description": "Light fruity-floral with violet, strawberry, and soft musk.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Wild Strawberry",
+          "Violet Leaf",
+          "Grapefruit"
+        ],
+        "heart": [
+          "Violet",
+          "Gardenia",
+          "Jasmine"
+        ],
+        "base": [
+          "Musk",
+          "Vanilla",
+          "White Woods"
+        ]
+      }
+    },
+    {
+      "brand": "Versace",
+      "name": "Bright Crystal",
+      "concentration": "EDT",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 2006,
+      "official_description": "Sheer fruity-floral of yuzu, pomegranate, and peony.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Yuzu",
+          "Pomegranate"
+        ],
+        "heart": [
+          "Peony",
+          "Magnolia",
+          "Lotus"
+        ],
+        "base": [
+          "Musk",
+          "Mahogany",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Dolce & Gabbana",
+      "name": "Light Blue",
+      "concentration": "EDT",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Fresh",
+      "release_year": 2001,
+      "official_description": "Crisp Sicilian lemon and apple over cedar, evoking Mediterranean summer.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Sicilian Lemon",
+          "Apple",
+          "Bellflower"
+        ],
+        "heart": [
+          "Bamboo",
+          "Jasmine",
+          "White Rose"
+        ],
+        "base": [
+          "Cedar",
+          "Musk",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Calvin Klein",
+      "name": "CK One",
+      "concentration": "EDT",
+      "gender_marker": "unisex",
+      "house_tier": "designer",
+      "scent_family": "Fresh",
+      "release_year": 1994,
+      "official_description": "Landmark shared citrus-musk that defined 90s unisex perfumery.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Cardamom",
+          "Pineapple",
+          "Lemon"
+        ],
+        "heart": [
+          "Jasmine",
+          "Violet",
+          "Nutmeg"
+        ],
+        "base": [
+          "Musk",
+          "Amber",
+          "Green Tea"
+        ]
+      }
+    },
+    {
+      "brand": "Hermes",
+      "name": "Terre d'Hermes",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Woody",
+      "release_year": 2006,
+      "official_description": "Mineral orange-vetiver composition by Jean-Claude Ellena.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Orange",
+          "Grapefruit"
+        ],
+        "heart": [
+          "Black Pepper",
+          "Pelargonium",
+          "Flint"
+        ],
+        "base": [
+          "Vetiver",
+          "Cedar",
+          "Benzoin"
+        ]
+      }
+    },
+    {
+      "brand": "Prada",
+      "name": "Luna Rossa Carbon",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Aromatic",
+      "release_year": 2017,
+      "official_description": "Metallic lavender-ambroxan fragrance with a mineral edge.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Black Pepper"
+        ],
+        "heart": [
+          "Lavender",
+          "Metallic Notes"
+        ],
+        "base": [
+          "Ambroxan",
+          "Patchouli",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Azzaro",
+      "name": "The Most Wanted",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Amber",
+      "release_year": 2021,
+      "official_description": "Sweet amber-woody built on cardamom, ginger, and amberwood.",
+      "refresh_interval_days": 90,
+      "notes": {
+        "top": [
+          "Cardamom"
+        ],
+        "heart": [
+          "Red Ginger"
+        ],
+        "base": [
+          "Amber Wood",
+          "Vanilla"
+        ]
+      }
+    },
+    {
+      "brand": "Yves Saint Laurent",
+      "name": "Y Eau de Parfum",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Aromatic",
+      "release_year": 2018,
+      "official_description": "Fresh-sweet aromatic of apple, ginger, sage, and amberwood.",
+      "refresh_interval_days": 90,
+      "notes": {
+        "top": [
+          "Apple",
+          "Ginger",
+          "Bergamot"
+        ],
+        "heart": [
+          "Sage",
+          "Juniper Berry",
+          "Geranium"
+        ],
+        "base": [
+          "Amberwood",
+          "Tonka Bean",
+          "Cedar",
+          "Vetiver"
+        ]
+      }
+    },
+    {
+      "brand": "Burberry",
+      "name": "Her",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 2018,
+      "official_description": "Berry-forward gourmand with jasmine, violet, and dry woods.",
+      "refresh_interval_days": 90,
+      "notes": {
+        "top": [
+          "Strawberry",
+          "Raspberry",
+          "Blackberry"
+        ],
+        "heart": [
+          "Jasmine",
+          "Violet"
+        ],
+        "base": [
+          "Musk",
+          "Amber",
+          "Dry Woods"
+        ]
+      }
+    },
+    {
+      "brand": "Amouage",
+      "name": "Reflection Man",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "niche",
+      "scent_family": "Floral",
+      "release_year": 2007,
+      "official_description": "Refined white-floral masculine built on neroli, jasmine, and sandalwood.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Rosemary",
+          "Red Pepper",
+          "Petitgrain"
+        ],
+        "heart": [
+          "Neroli",
+          "Jasmine",
+          "Ylang-Ylang"
+        ],
+        "base": [
+          "Sandalwood",
+          "Cedar",
+          "Vetiver"
+        ]
+      }
+    },
+    {
+      "brand": "Amouage",
+      "name": "Interlude Man",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2012,
+      "official_description": "Smoky incense-amber built around controlled chaos of oregano and labdanum.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Oregano",
+          "Pepper"
+        ],
+        "heart": [
+          "Frankincense",
+          "Amber",
+          "Labdanum"
+        ],
+        "base": [
+          "Leather",
+          "Agarwood",
+          "Sandalwood"
+        ]
+      }
+    },
+    {
+      "brand": "Amouage",
+      "name": "Jubilation XXV",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "niche",
+      "scent_family": "Oriental",
+      "release_year": 2007,
+      "official_description": "Opulent fruity-incense oriental marking Amouage's 25th anniversary.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Blackberry",
+          "Labdanum",
+          "Coriander"
+        ],
+        "heart": [
+          "Bay Leaf",
+          "Cinnamon",
+          "Rose"
+        ],
+        "base": [
+          "Oud",
+          "Myrrh",
+          "Ambergris",
+          "Moss"
+        ]
+      }
+    },
+    {
+      "brand": "Maison Francis Kurkdjian",
+      "name": "Grand Soir",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2016,
+      "official_description": "Golden evening amber of benzoin, labdanum, and vanilla.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Labdanum",
+          "Cistus"
+        ],
+        "heart": [
+          "Benzoin",
+          "Tonka Bean"
+        ],
+        "base": [
+          "Amber",
+          "Vanilla"
+        ]
+      }
+    },
+    {
+      "brand": "Maison Francis Kurkdjian",
+      "name": "Oud Satin Mood",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2015,
+      "official_description": "Plush rose-oud softened by violet, vanilla, and benzoin.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Violet"
+        ],
+        "heart": [
+          "Rose",
+          "Oud"
+        ],
+        "base": [
+          "Vanilla",
+          "Benzoin",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Maison Francis Kurkdjian",
+      "name": "Aqua Universalis",
+      "concentration": "EDT",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Fresh",
+      "release_year": 2009,
+      "official_description": "Clean-linen citrus musk designed as a universal fresh scent.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Sicilian Lemon"
+        ],
+        "heart": [
+          "Lily of the Valley",
+          "Mock Orange"
+        ],
+        "base": [
+          "Musk",
+          "Light Woods"
+        ]
+      }
+    },
+    {
+      "brand": "Tom Ford",
+      "name": "Tobacco Vanille",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "luxury",
+      "scent_family": "Amber",
+      "release_year": 2007,
+      "official_description": "Rich tobacco leaf sweetened with vanilla, cocoa, and dried fruit.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Tobacco Leaf",
+          "Spice Notes"
+        ],
+        "heart": [
+          "Vanilla",
+          "Cacao",
+          "Tonka Bean"
+        ],
+        "base": [
+          "Dried Fruits",
+          "Woody Notes"
+        ]
+      }
+    },
+    {
+      "brand": "Tom Ford",
+      "name": "Oud Wood",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "luxury",
+      "scent_family": "Woody",
+      "release_year": 2007,
+      "official_description": "Smooth, approachable oud with rosewood, sandalwood, and vanilla.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Rosewood",
+          "Cardamom",
+          "Pepper"
+        ],
+        "heart": [
+          "Oud",
+          "Sandalwood",
+          "Vetiver"
+        ],
+        "base": [
+          "Tonka Bean",
+          "Vanilla",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Tom Ford",
+      "name": "Neroli Portofino",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "luxury",
+      "scent_family": "Fresh",
+      "release_year": 2011,
+      "official_description": "Sparkling Italian citrus-neroli cologne in eau de parfum strength.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Mandarin",
+          "Lemon"
+        ],
+        "heart": [
+          "Neroli",
+          "Orange Blossom",
+          "Jasmine"
+        ],
+        "base": [
+          "Amber",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Frederic Malle",
+      "name": "Portrait of a Lady",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Chypre",
+      "release_year": 2010,
+      "official_description": "Monumental Turkish rose over patchouli, incense, and sandalwood by Dominique Ropion.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Raspberry",
+          "Blackcurrant",
+          "Cinnamon"
+        ],
+        "heart": [
+          "Turkish Rose"
+        ],
+        "base": [
+          "Patchouli",
+          "Frankincense",
+          "Sandalwood",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Frederic Malle",
+      "name": "Musc Ravageur",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2000,
+      "official_description": "Sensual spiced musk with cinnamon, vanilla, and tonka by Maurice Roucel.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Lavender",
+          "Bergamot",
+          "Tangerine"
+        ],
+        "heart": [
+          "Cinnamon",
+          "Clove"
+        ],
+        "base": [
+          "Musk",
+          "Vanilla",
+          "Tonka Bean",
+          "Sandalwood"
+        ]
+      }
+    },
+    {
+      "brand": "Frederic Malle",
+      "name": "Carnal Flower",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "niche",
+      "scent_family": "Floral",
+      "release_year": 2005,
+      "official_description": "Green, camphorous tuberose considered a modern white-floral benchmark.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Eucalyptus",
+          "Bergamot",
+          "Melon"
+        ],
+        "heart": [
+          "Tuberose",
+          "Ylang-Ylang",
+          "Jasmine"
+        ],
+        "base": [
+          "Coconut",
+          "Musk",
+          "White Woods"
+        ]
+      }
+    },
+    {
+      "brand": "Byredo",
+      "name": "Gypsy Water",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Woody",
+      "release_year": 2008,
+      "official_description": "Airy woody blend of juniper, incense, pine, and sandalwood.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Lemon",
+          "Pepper",
+          "Juniper Berry"
+        ],
+        "heart": [
+          "Incense",
+          "Pine Needles",
+          "Orris"
+        ],
+        "base": [
+          "Vanilla",
+          "Sandalwood",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Byredo",
+      "name": "Bal d'Afrique",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Floral",
+      "release_year": 2009,
+      "official_description": "Vibrant neroli-violet vetiver inspired by 1920s Paris and African culture.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Lemon",
+          "Neroli",
+          "African Marigold"
+        ],
+        "heart": [
+          "Violet",
+          "Jasmine",
+          "Cyclamen"
+        ],
+        "base": [
+          "Vetiver",
+          "Cedar",
+          "Musk",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Byredo",
+      "name": "Mojave Ghost",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Woody",
+      "release_year": 2014,
+      "official_description": "Soft musky-woody scent built on ambrette and sandalwood.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Ambrette",
+          "Sapodilla"
+        ],
+        "heart": [
+          "Magnolia",
+          "Violet",
+          "Sandalwood"
+        ],
+        "base": [
+          "Cedar",
+          "Musk",
+          "Ambergris"
+        ]
+      }
+    },
+    {
+      "brand": "Roja Parfums",
+      "name": "Elysium",
+      "concentration": "Cologne",
+      "gender_marker": "masculine",
+      "house_tier": "luxury",
+      "scent_family": "Fresh",
+      "release_year": 2017,
+      "official_description": "Luxurious fresh-aromatic citrus with juniper and ambergris.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Grapefruit",
+          "Bergamot",
+          "Lime"
+        ],
+        "heart": [
+          "Juniper Berry",
+          "Pink Pepper",
+          "Lavender"
+        ],
+        "base": [
+          "Vetiver",
+          "Cedarwood",
+          "Musk",
+          "Ambergris"
+        ]
+      }
+    },
+    {
+      "brand": "Roja Parfums",
+      "name": "Enigma",
+      "concentration": "Parfum",
+      "gender_marker": "masculine",
+      "house_tier": "luxury",
+      "scent_family": "Amber",
+      "release_year": 2013,
+      "official_description": "Cognac, tobacco, and vanilla amber in Roja Dove's signature opulent style.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Cognac",
+          "Bergamot"
+        ],
+        "heart": [
+          "Rose de Mai",
+          "Heliotrope",
+          "Geranium"
+        ],
+        "base": [
+          "Tobacco",
+          "Vanilla",
+          "Benzoin",
+          "Labdanum"
+        ]
+      }
+    },
+    {
+      "brand": "Creed",
+      "name": "Aventus",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "niche",
+      "scent_family": "Chypre",
+      "release_year": 2010,
+      "official_description": "Pineapple-birch fruity chypre that became the benchmark modern masculine.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Pineapple",
+          "Bergamot",
+          "Blackcurrant",
+          "Apple"
+        ],
+        "heart": [
+          "Birch",
+          "Patchouli",
+          "Rose"
+        ],
+        "base": [
+          "Musk",
+          "Oakmoss",
+          "Ambergris",
+          "Vanilla"
+        ]
+      }
+    },
+    {
+      "brand": "Creed",
+      "name": "Green Irish Tweed",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "niche",
+      "scent_family": "Fougere",
+      "release_year": 1985,
+      "official_description": "Green violet-leaf fougere with lemon verbena and sandalwood.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Lemon Verbena",
+          "Iris"
+        ],
+        "heart": [
+          "Violet Leaf"
+        ],
+        "base": [
+          "Sandalwood",
+          "Ambergris"
+        ]
+      }
+    },
+    {
+      "brand": "Creed",
+      "name": "Silver Mountain Water",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Fresh",
+      "release_year": 1995,
+      "official_description": "Crisp green tea and blackcurrant evoking alpine streams.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Mandarin"
+        ],
+        "heart": [
+          "Green Tea",
+          "Blackcurrant"
+        ],
+        "base": [
+          "Musk",
+          "Sandalwood",
+          "Petitgrain"
+        ]
+      }
+    },
+    {
+      "brand": "Le Labo",
+      "name": "Santal 33",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Woody",
+      "release_year": 2011,
+      "official_description": "Smoky-leathery sandalwood that became a cultural phenomenon.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Cardamom",
+          "Violet"
+        ],
+        "heart": [
+          "Iris",
+          "Papyrus",
+          "Leather"
+        ],
+        "base": [
+          "Sandalwood",
+          "Cedar",
+          "Ambrox"
+        ]
+      }
+    },
+    {
+      "brand": "Le Labo",
+      "name": "Another 13",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Musk",
+      "release_year": 2010,
+      "official_description": "Ambroxan-driven skin musk with pear and jasmine facets.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Pear",
+          "Ambrette"
+        ],
+        "heart": [
+          "Jasmine",
+          "Moss"
+        ],
+        "base": [
+          "Ambroxan",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Diptyque",
+      "name": "Philosykos",
+      "concentration": "EDT",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Woody",
+      "release_year": 1996,
+      "official_description": "Complete fig tree portrait: leaf, fruit, and wood with coconut milkiness.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Fig Leaf",
+          "Green Notes"
+        ],
+        "heart": [
+          "Fig",
+          "Coconut"
+        ],
+        "base": [
+          "Fig Tree Wood",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Nishane",
+      "name": "Ani",
+      "concentration": "Extrait",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2019,
+      "official_description": "Ginger-vanilla amber extrait with rose and benzoin warmth.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Ginger",
+          "Pink Pepper",
+          "Bergamot"
+        ],
+        "heart": [
+          "Rose",
+          "Cardamom"
+        ],
+        "base": [
+          "Vanilla",
+          "Benzoin",
+          "Sandalwood",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Xerjoff",
+      "name": "Naxos",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "luxury",
+      "scent_family": "Amber",
+      "release_year": 2015,
+      "official_description": "Honeyed tobacco-vanilla with a lavender-citrus Sicilian opening.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Lavender",
+          "Bergamot",
+          "Lemon"
+        ],
+        "heart": [
+          "Honey",
+          "Cinnamon",
+          "Jasmine"
+        ],
+        "base": [
+          "Tobacco",
+          "Vanilla",
+          "Tonka Bean"
+        ]
+      }
+    },
+    {
+      "brand": "Parfums de Marly",
+      "name": "Layton",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2016,
+      "official_description": "Sweet apple-lavender amber with vanilla and cardamom.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Apple",
+          "Lavender",
+          "Bergamot"
+        ],
+        "heart": [
+          "Geranium",
+          "Violet",
+          "Jasmine"
+        ],
+        "base": [
+          "Vanilla",
+          "Cardamom",
+          "Sandalwood",
+          "Guaiac Wood"
+        ]
+      }
+    },
+    {
+      "brand": "Parfums de Marly",
+      "name": "Herod",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2012,
+      "official_description": "Tobacco leaf and vanilla warmed by cinnamon and incense.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Cinnamon",
+          "Pepper"
+        ],
+        "heart": [
+          "Tobacco Leaf",
+          "Incense",
+          "Osmanthus"
+        ],
+        "base": [
+          "Vanilla",
+          "Tonka Bean",
+          "Cedar",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Initio",
+      "name": "Oud for Greatness",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Woody",
+      "release_year": 2018,
+      "official_description": "Saffron-lavender oud designed for maximum projection.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Saffron",
+          "Nutmeg",
+          "Lavender"
+        ],
+        "heart": [
+          "Agarwood"
+        ],
+        "base": [
+          "Patchouli",
+          "Musk",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Serge Lutens",
+      "name": "Chergui",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2001,
+      "official_description": "Hay, honey, and tobacco amber named for the Moroccan desert wind.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Hay"
+        ],
+        "heart": [
+          "Tobacco Leaf",
+          "Honey",
+          "Iris"
+        ],
+        "base": [
+          "Amber",
+          "Musk",
+          "Sandalwood"
+        ]
+      }
+    },
+    {
+      "brand": "Penhaligon's",
+      "name": "Halfeti",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2015,
+      "official_description": "Rose-saffron oud inspired by the black roses of Halfeti, Turkey.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Grapefruit",
+          "Bergamot",
+          "Cypress"
+        ],
+        "heart": [
+          "Rose",
+          "Jasmine",
+          "Saffron",
+          "Nutmeg"
+        ],
+        "base": [
+          "Oud",
+          "Leather",
+          "Amber",
+          "Vanilla"
+        ]
+      }
+    },
+    {
+      "brand": "Chanel",
+      "name": "No. 19",
+      "concentration": "EDT",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Chypre",
+      "release_year": 1971,
+      "official_description": "Sharp green galbanum-iris chypre with a vetiver-leather base.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Galbanum",
+          "Neroli",
+          "Bergamot"
+        ],
+        "heart": [
+          "Iris",
+          "Rose",
+          "Lily of the Valley"
+        ],
+        "base": [
+          "Vetiver",
+          "Oakmoss",
+          "Leather",
+          "Sandalwood"
+        ]
+      }
+    },
+    {
+      "brand": "Guerlain",
+      "name": "Mitsouko",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Chypre",
+      "release_year": 1919,
+      "official_description": "The defining peach-oakmoss chypre by Jacques Guerlain.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Citrus Notes"
+        ],
+        "heart": [
+          "Peach",
+          "Rose",
+          "Jasmine"
+        ],
+        "base": [
+          "Oakmoss",
+          "Vetiver",
+          "Cinnamon",
+          "Labdanum"
+        ]
+      }
+    },
+    {
+      "brand": "Guerlain",
+      "name": "L'Heure Bleue",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Oriental",
+      "release_year": 1912,
+      "official_description": "Melancholic anise-heliotrope oriental evoking Parisian twilight.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Anise",
+          "Bergamot"
+        ],
+        "heart": [
+          "Carnation",
+          "Violet",
+          "Neroli"
+        ],
+        "base": [
+          "Iris",
+          "Vanilla",
+          "Benzoin",
+          "Tonka Bean"
+        ]
+      }
+    },
+    {
+      "brand": "Serge Lutens",
+      "name": "La Fille de Berlin",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "niche",
+      "scent_family": "Floral",
+      "release_year": 2013,
+      "official_description": "Peppery, defiant rose with a musky-amber drydown.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Rose",
+          "Pepper"
+        ],
+        "heart": [
+          "Rose",
+          "Violet"
+        ],
+        "base": [
+          "Musk",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Hermes",
+      "name": "24 Faubourg",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 1995,
+      "official_description": "Solar white-floral amber composed by Maurice Roucel for Hermes.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Orange Blossom",
+          "Bergamot",
+          "Peach"
+        ],
+        "heart": [
+          "Jasmine",
+          "Ylang-Ylang",
+          "Iris"
+        ],
+        "base": [
+          "Ambergris",
+          "Sandalwood",
+          "Vanilla",
+          "Patchouli"
+        ]
+      }
+    },
+    {
+      "brand": "Guerlain",
+      "name": "Samsara",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Woody",
+      "release_year": 1989,
+      "official_description": "Sandalwood-jasmine oriental with an unusually high sandalwood dose.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Ylang-Ylang",
+          "Peach"
+        ],
+        "heart": [
+          "Jasmine",
+          "Rose",
+          "Iris"
+        ],
+        "base": [
+          "Sandalwood",
+          "Vanilla",
+          "Tonka Bean"
+        ]
+      }
+    },
+    {
+      "brand": "Robert Piguet",
+      "name": "Fracas",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 1948,
+      "official_description": "The reference tuberose soliflore, composed by Germaine Cellier.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Mandarin",
+          "Green Notes"
+        ],
+        "heart": [
+          "Tuberose",
+          "Orange Blossom",
+          "Jasmine"
+        ],
+        "base": [
+          "Sandalwood",
+          "Musk",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Clinique",
+      "name": "Aromatics Elixir",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Chypre",
+      "release_year": 1971,
+      "official_description": "Herbal rose-patchouli chypre with unmistakable presence.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Aldehydes",
+          "Coriander",
+          "Sage"
+        ],
+        "heart": [
+          "Rose",
+          "Jasmine",
+          "Ylang-Ylang"
+        ],
+        "base": [
+          "Patchouli",
+          "Oakmoss",
+          "Vetiver"
+        ]
+      }
+    },
+    {
+      "brand": "Serge Lutens",
+      "name": "Feminite du Bois",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "niche",
+      "scent_family": "Woody",
+      "release_year": 1992,
+      "official_description": "Pioneering cedar-plum feminine woody by Sheldrake and Bourdon.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Plum",
+          "Peach",
+          "Cardamom"
+        ],
+        "heart": [
+          "Cedar",
+          "Rose",
+          "Violet"
+        ],
+        "base": [
+          "Musk",
+          "Vanilla",
+          "Benzoin"
+        ]
+      }
+    },
+    {
+      "brand": "Dior",
+      "name": "Hypnotic Poison",
+      "concentration": "EDT",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 1998,
+      "official_description": "Bitter almond and vanilla gourmand with a narcotic character.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bitter Almond",
+          "Caraway",
+          "Coconut"
+        ],
+        "heart": [
+          "Jasmine",
+          "Rose"
+        ],
+        "base": [
+          "Vanilla",
+          "Sandalwood",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Lancome",
+      "name": "Tresor",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 1990,
+      "official_description": "Peach-rose powdery floral by Sophia Grojsman.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Peach",
+          "Apricot Blossom",
+          "Pineapple"
+        ],
+        "heart": [
+          "Rose",
+          "Iris",
+          "Heliotrope"
+        ],
+        "base": [
+          "Sandalwood",
+          "Musk",
+          "Vanilla",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Narciso Rodriguez",
+      "name": "For Her",
+      "concentration": "EDT",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Musk",
+      "release_year": 2004,
+      "official_description": "Modern musk landmark wrapped in orange blossom and osmanthus.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Orange Blossom",
+          "Osmanthus"
+        ],
+        "heart": [
+          "Musk",
+          "Amber"
+        ],
+        "base": [
+          "Vetiver",
+          "Vanilla"
+        ]
+      }
+    },
+    {
+      "brand": "Mugler",
+      "name": "Angel",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 1992,
+      "official_description": "The original gourmand: chocolate-caramel patchouli that created a genre.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Melon",
+          "Coconut",
+          "Mandarin",
+          "Bergamot"
+        ],
+        "heart": [
+          "Honey",
+          "Red Berries",
+          "Caramel"
+        ],
+        "base": [
+          "Patchouli",
+          "Chocolate",
+          "Vanilla",
+          "Tonka Bean"
+        ]
+      }
+    },
+    {
+      "brand": "Yves Saint Laurent",
+      "name": "Opium",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Oriental",
+      "release_year": 1977,
+      "official_description": "Spice-laden oriental of clove, myrrh, and amber that defined an era.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Mandarin",
+          "Plum",
+          "Clove"
+        ],
+        "heart": [
+          "Carnation",
+          "Cinnamon",
+          "Myrrh",
+          "Jasmine"
+        ],
+        "base": [
+          "Amber",
+          "Vanilla",
+          "Patchouli",
+          "Benzoin"
+        ]
+      }
+    },
+    {
+      "brand": "Chanel",
+      "name": "Coco",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Amber",
+      "release_year": 1984,
+      "official_description": "Spiced amber-floral by Jacques Polge, baroque and warm.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Coriander",
+          "Mandarin",
+          "Peach"
+        ],
+        "heart": [
+          "Clove",
+          "Rose",
+          "Mimosa"
+        ],
+        "base": [
+          "Amber",
+          "Sandalwood",
+          "Tonka Bean",
+          "Vanilla"
+        ]
+      }
+    },
+    {
+      "brand": "Tom Ford",
+      "name": "Noir de Noir",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "luxury",
+      "scent_family": "Amber",
+      "release_year": 2007,
+      "official_description": "Dark rose-truffle oriental blurring masculine and feminine codes.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Saffron"
+        ],
+        "heart": [
+          "Black Rose",
+          "Truffle",
+          "Vanilla"
+        ],
+        "base": [
+          "Patchouli",
+          "Oud",
+          "Oakmoss"
+        ]
+      }
+    },
+    {
+      "brand": "Amouage",
+      "name": "Lyric Man",
+      "concentration": "EDP",
+      "gender_marker": "masculine",
+      "house_tier": "niche",
+      "scent_family": "Floral",
+      "release_year": 2008,
+      "official_description": "Rose-forward masculine wrapped in incense, sandalwood, and vanilla.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Lime"
+        ],
+        "heart": [
+          "Rose",
+          "Angelica",
+          "Orange Blossom",
+          "Ginger"
+        ],
+        "base": [
+          "Sandalwood",
+          "Vanilla",
+          "Frankincense",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Le Labo",
+      "name": "Rose 31",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Floral",
+      "release_year": 2006,
+      "official_description": "Grasse rose made deliberately masculine with cumin, cedar, and incense.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Rose",
+          "Cumin"
+        ],
+        "heart": [
+          "Olibanum",
+          "Vetiver"
+        ],
+        "base": [
+          "Cedar",
+          "Amber",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Yves Saint Laurent",
+      "name": "M7 Oud Absolu",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Woody",
+      "release_year": 2011,
+      "official_description": "Reissue of the first mainstream Western oud masculine.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Mandarin",
+          "Bergamot"
+        ],
+        "heart": [
+          "Agarwood",
+          "Patchouli"
+        ],
+        "base": [
+          "Amber",
+          "Myrrh",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Dior",
+      "name": "Dior Homme",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Woody",
+      "release_year": 2005,
+      "official_description": "Lipstick-iris masculine that redefined gender codes in mainstream perfumery.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Lavender",
+          "Sage",
+          "Bergamot"
+        ],
+        "heart": [
+          "Iris",
+          "Cacao",
+          "Amber"
+        ],
+        "base": [
+          "Vetiver",
+          "Leather",
+          "Patchouli"
+        ]
+      }
+    },
+    {
+      "brand": "Serge Lutens",
+      "name": "Ambre Sultan",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 1993,
+      "official_description": "Herbal amber reference: oregano and bay over resinous vanilla.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Coriander",
+          "Bay Leaf",
+          "Oregano"
+        ],
+        "heart": [
+          "Myrrh",
+          "Sandalwood"
+        ],
+        "base": [
+          "Amber",
+          "Benzoin",
+          "Vanilla",
+          "Patchouli"
+        ]
+      }
+    },
+    {
+      "brand": "Comme des Garcons",
+      "name": "Avignon",
+      "concentration": "EDT",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Incense",
+      "release_year": 2002,
+      "official_description": "Cold cathedral frankincense from the Incense Series.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Frankincense",
+          "Elemi"
+        ],
+        "heart": [
+          "Roman Chamomile",
+          "Aldehydes"
+        ],
+        "base": [
+          "Patchouli",
+          "Palisander",
+          "Vanilla"
+        ]
+      }
+    },
+    {
+      "brand": "Jo Malone London",
+      "name": "Velvet Rose & Oud",
+      "concentration": "Cologne",
+      "gender_marker": "unisex",
+      "house_tier": "designer",
+      "scent_family": "Amber",
+      "release_year": 2012,
+      "official_description": "Damask rose darkened with oud and clove in Cologne Intense strength.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Clove"
+        ],
+        "heart": [
+          "Damask Rose"
+        ],
+        "base": [
+          "Oud",
+          "Praline"
+        ]
+      }
+    },
+    {
+      "brand": "Tauer Perfumes",
+      "name": "L'Air du Desert Marocain",
+      "concentration": "EDT",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2005,
+      "official_description": "Dry desert-air amber of cistus, incense, and cedar; a cult unisex masterpiece.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Coriander",
+          "Cumin",
+          "Petitgrain"
+        ],
+        "heart": [
+          "Frankincense",
+          "Rock Rose",
+          "Jasmine"
+        ],
+        "base": [
+          "Amber",
+          "Cedar",
+          "Vetiver"
+        ]
+      }
+    },
+    {
+      "brand": "Chanel",
+      "name": "Egoiste",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Woody",
+      "release_year": 1990,
+      "official_description": "Rose-sandalwood masculine with spiced mahogany warmth.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Mandarin",
+          "Coriander",
+          "Rosewood"
+        ],
+        "heart": [
+          "Damask Rose",
+          "Carnation",
+          "Cinnamon"
+        ],
+        "base": [
+          "Sandalwood",
+          "Vanilla",
+          "Ambrette"
+        ]
+      }
+    },
+    {
+      "brand": "Maison Francis Kurkdjian",
+      "name": "Baccarat Rouge 540",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "niche",
+      "scent_family": "Amber",
+      "release_year": 2015,
+      "official_description": "Saffron-amberwood signature famous for its sweet mineral sillage.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Saffron",
+          "Jasmine"
+        ],
+        "heart": [
+          "Amberwood",
+          "Ambergris"
+        ],
+        "base": [
+          "Fir Resin",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Parfums de Marly",
+      "name": "Delina",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "niche",
+      "scent_family": "Floral",
+      "release_year": 2017,
+      "official_description": "Litchi-rhubarb Turkish rose with a musky cashmeran base.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Litchi",
+          "Rhubarb",
+          "Bergamot"
+        ],
+        "heart": [
+          "Turkish Rose",
+          "Peony",
+          "Vanilla"
+        ],
+        "base": [
+          "Musk",
+          "Cashmeran",
+          "Frankincense"
+        ]
+      }
+    },
+    {
+      "brand": "Ariana Grande",
+      "name": "Cloud",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 2018,
+      "official_description": "Creamy coconut-praline gourmand widely noted for its BR540-adjacent drydown.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Lavender Blossom",
+          "Pear",
+          "Bergamot"
+        ],
+        "heart": [
+          "Coconut",
+          "Praline",
+          "Vanilla Orchid"
+        ],
+        "base": [
+          "Musk",
+          "Woody Notes"
+        ]
+      }
+    },
+    {
+      "brand": "Valentino",
+      "name": "Born in Roma Donna",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 2019,
+      "official_description": "Jasmine-vanilla with a blackcurrant top and woody undertone.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Blackcurrant",
+          "Pink Pepper"
+        ],
+        "heart": [
+          "Jasmine Sambac"
+        ],
+        "base": [
+          "Bourbon Vanilla",
+          "Cashmeran",
+          "Woody Notes"
+        ]
+      }
+    },
+    {
+      "brand": "Yves Saint Laurent",
+      "name": "Libre",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 2019,
+      "official_description": "Lavender-orange blossom floral bridging fougere and feminine codes.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Mandarin",
+          "Lavender",
+          "Petitgrain",
+          "Blackcurrant"
+        ],
+        "heart": [
+          "Orange Blossom",
+          "Jasmine"
+        ],
+        "base": [
+          "Vanilla",
+          "Musk",
+          "Cedar",
+          "Ambergris"
+        ]
+      }
+    },
+    {
+      "brand": "Emporio Armani",
+      "name": "Stronger With You",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 2017,
+      "official_description": "Chestnut-vanilla sweet masculine with cardamom and sage.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Cardamom",
+          "Pink Pepper",
+          "Violet Leaf"
+        ],
+        "heart": [
+          "Sage",
+          "Melon Notes"
+        ],
+        "base": [
+          "Chestnut",
+          "Vanilla",
+          "Amberwood",
+          "Cedar"
+        ]
+      }
+    },
+    {
+      "brand": "Prada",
+      "name": "Paradoxe",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 2022,
+      "official_description": "Neroli-amber floral musk in Prada's abstract modern style.",
+      "refresh_interval_days": 90,
+      "notes": {
+        "top": [
+          "Pear",
+          "Tangerine",
+          "Neroli"
+        ],
+        "heart": [
+          "Jasmine",
+          "Orange Blossom"
+        ],
+        "base": [
+          "Bourbon Vanilla",
+          "White Musk",
+          "Amber"
+        ]
+      }
+    },
+    {
+      "brand": "Lattafa",
+      "name": "Khamrah",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "designer",
+      "scent_family": "Gourmand",
+      "release_year": 2022,
+      "official_description": "Boozy date-praline gourmand that became a viral budget favorite.",
+      "refresh_interval_days": 90,
+      "notes": {
+        "top": [
+          "Cinnamon",
+          "Nutmeg",
+          "Bergamot"
+        ],
+        "heart": [
+          "Dates",
+          "Praline",
+          "Tuberose"
+        ],
+        "base": [
+          "Vanilla",
+          "Tonka Bean",
+          "Benzoin",
+          "Amberwood"
+        ]
+      }
+    },
+    {
+      "brand": "Glossier",
+      "name": "You",
+      "concentration": "EDP",
+      "gender_marker": "unisex",
+      "house_tier": "designer",
+      "scent_family": "Musk",
+      "release_year": 2017,
+      "official_description": "Minimalist skin-scent musk with pink pepper and ambrette.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Pink Pepper",
+          "Iris"
+        ],
+        "heart": [
+          "Ambrette"
+        ],
+        "base": [
+          "Ambrox",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Maison Margiela",
+      "name": "Replica By the Fireplace",
+      "concentration": "EDT",
+      "gender_marker": "unisex",
+      "house_tier": "designer",
+      "scent_family": "Woody",
+      "release_year": 2015,
+      "official_description": "Smoky chestnut and vanilla recreating a winter fireside.",
+      "refresh_interval_days": 180,
+      "notes": {
+        "top": [
+          "Pink Pepper",
+          "Orange Blossom",
+          "Clove"
+        ],
+        "heart": [
+          "Chestnut",
+          "Guaiac Wood",
+          "Juniper"
+        ],
+        "base": [
+          "Vanilla",
+          "Peru Balsam",
+          "Cade"
+        ]
+      }
+    },
+    {
+      "brand": "Chanel",
+      "name": "No. 5",
+      "concentration": "Parfum",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Floral",
+      "release_year": 1921,
+      "official_description": "The archetypal aldehydic floral by Ernest Beaux, still in continuous production.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Aldehydes",
+          "Neroli",
+          "Ylang-Ylang",
+          "Bergamot"
+        ],
+        "heart": [
+          "Rose",
+          "Jasmine",
+          "Lily of the Valley",
+          "Iris"
+        ],
+        "base": [
+          "Sandalwood",
+          "Vetiver",
+          "Vanilla",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Guerlain",
+      "name": "Shalimar",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Oriental",
+      "release_year": 1925,
+      "official_description": "Foundational bergamot-vanilla oriental with smoky leather undertones.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Lemon"
+        ],
+        "heart": [
+          "Iris",
+          "Rose",
+          "Jasmine"
+        ],
+        "base": [
+          "Vanilla",
+          "Tonka Bean",
+          "Opoponax",
+          "Leather"
+        ]
+      }
+    },
+    {
+      "brand": "Guerlain",
+      "name": "Habit Rouge",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Oriental",
+      "release_year": 1965,
+      "official_description": "Citrus-powder oriental masculine inspired by equestrian tradition.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Bergamot",
+          "Orange",
+          "Lemon"
+        ],
+        "heart": [
+          "Carnation",
+          "Cinnamon",
+          "Patchouli"
+        ],
+        "base": [
+          "Vanilla",
+          "Leather",
+          "Benzoin",
+          "Labdanum"
+        ]
+      }
+    },
+    {
+      "brand": "Dior",
+      "name": "Eau Sauvage",
+      "concentration": "EDT",
+      "gender_marker": "masculine",
+      "house_tier": "designer",
+      "scent_family": "Chypre",
+      "release_year": 1966,
+      "official_description": "Citrus chypre by Edmond Roudnitska, famed for its early use of hedione.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Lemon",
+          "Bergamot",
+          "Basil"
+        ],
+        "heart": [
+          "Jasmine",
+          "Rosemary"
+        ],
+        "base": [
+          "Oakmoss",
+          "Vetiver",
+          "Musk"
+        ]
+      }
+    },
+    {
+      "brand": "Estee Lauder",
+      "name": "Youth Dew",
+      "concentration": "EDP",
+      "gender_marker": "feminine",
+      "house_tier": "designer",
+      "scent_family": "Amber",
+      "release_year": 1953,
+      "official_description": "Spiced balsamic amber originally launched as a bath oil.",
+      "refresh_interval_days": 365,
+      "notes": {
+        "top": [
+          "Aldehydes",
+          "Orange",
+          "Spice Notes"
+        ],
+        "heart": [
+          "Cinnamon",
+          "Clove",
+          "Rose",
+          "Ylang-Ylang"
+        ],
+        "base": [
+          "Amber",
+          "Tolu Balsam",
+          "Patchouli",
+          "Vanilla"
+        ]
+      }
+    }
+  ]
+}
