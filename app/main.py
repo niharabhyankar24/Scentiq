@@ -18,6 +18,8 @@ import app.models.collection
 import app.models.ai_insights
 import app.models.pricing
 import app.models.similarity
+import app.models.user_memory
+import app.models.search_query
 
 from app.routes.fragrance import router as fragrance_router
 from app.routes.auth import router as auth_router
