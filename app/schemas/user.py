@@ -1,5 +1,4 @@
 from pydantic import BaseModel, EmailStr
-from typing import Optional
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -10,7 +9,6 @@ class UserResponse(BaseModel):
     id: int
     email: str
     username: str
-    tracking_enabled: bool
     is_admin: bool
 
     class Config:
