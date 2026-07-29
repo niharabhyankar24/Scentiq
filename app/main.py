@@ -30,6 +30,7 @@ from app.routes.similarity import router as similarity_router
 from app.routes.note import router as note_router
 from app.routes import admin
 from app.routes import search
+from app.routes.consent import router as consent_router
 
 limiter = Limiter(key_func=get_remote_address)
 
@@ -46,7 +47,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://scentiq-chi.vercel.app/",
+        "https://scentiq-chi.vercel.app",
         "https://scentiq-production.up.railway.app"
     ],
     allow_credentials=True,
@@ -69,6 +70,7 @@ app.include_router(
     prefix="/api/search",
     tags=["search"]
 )
+app.include_router(consent_router, prefix="/api")
 
 @app.get("/")
 def root():
