@@ -4,14 +4,16 @@ Consent routes.
 Two endpoints for reading and updating a user's three
 consent booleans.
 
-Honesty guarantee enforced here: if a PUT is turning
-consent_search_history from True to False, every row in
+Honesty guarantee enforced here: after any PUT that ends
+with consent_search_history == False, every row in
 search_queries for that user is deleted in the same
-transaction. Withdrawal means the data is gone.
+transaction. This is state-based, not transition-based:
+if the outgoing state is "off", we guarantee no rows
+exist, regardless of how they got there. Off means gone.
 
 Other consent axes (collection, wishlist) do not currently
-have derived data to purge on revoke — that logic lives in
-the memory feature and will be added when memory is built.
+have derived data to purge — that logic lives in the
+memory feature and will be added when memory is built.
 """
 
 from fastapi import APIRouter, Depends
@@ -43,20 +45,17 @@ def update_consent(
     Update the authenticated user's consent settings.
 
     Expects the full three-boolean state (see schemas/consent.py
-    for the reasoning). If search history consent is being
-    revoked in this update, all stored search queries for
-    this user are deleted in the same transaction.
+    for the reasoning). Whenever the outgoing state has
+    search history consent off, all stored search queries
+    for this user are deleted in the same transaction. This
+    is idempotent: if consent was already off, the delete is
+    a no-op against an empty result set.
     """
-    revoking_search_history = (
-        current_user.consent_search_history
-        and not payload.consent_search_history
-    )
-
     current_user.consent_collection = payload.consent_collection
     current_user.consent_wishlist = payload.consent_wishlist
     current_user.consent_search_history = payload.consent_search_history
 
-    if revoking_search_history:
+    if not payload.consent_search_history:
         db.query(SearchQuery).filter(
             SearchQuery.user_id == current_user.id
         ).delete()
