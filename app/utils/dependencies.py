@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
@@ -6,6 +8,7 @@ from app.models.user import User
 from app.utils.jwt import decode_access_token
 
 bearer_scheme = HTTPBearer()
+optional_bearer_scheme = HTTPBearer(auto_error=False)
 
 
 def get_current_user(
@@ -31,6 +34,35 @@ def get_current_user(
     if user is None:
         raise credentials_exception
     return user
+
+
+def get_optional_user(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(
+        optional_bearer_scheme
+    ),
+    db: Session = Depends(get_db)
+) -> Optional[User]:
+    """
+    Like get_current_user, but does not raise on missing or
+    invalid credentials. Returns the authenticated User if
+    the token is valid, or None otherwise.
+
+    Use on public endpoints that behave differently when a
+    valid token is present — for example, the semantic
+    search endpoint, which is public but logs the query for
+    authenticated users who have consented to search history.
+    """
+    if credentials is None:
+        return None
+    payload = decode_access_token(credentials.credentials)
+    if payload is None:
+        return None
+    try:
+        user_id = int(payload.get("sub"))
+    except (TypeError, ValueError):
+        return None
+    return db.query(User).filter(User.id == user_id).first()
+
 
 def get_admin_user(
     current_user: User = Depends(get_current_user)
