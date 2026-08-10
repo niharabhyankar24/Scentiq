@@ -31,6 +31,7 @@ from app.routes.note import router as note_router
 from app.routes import admin
 from app.routes import search
 from app.routes.consent import router as consent_router
+from app.routes.memory import router as memory_router
 
 limiter = Limiter(key_func=get_remote_address)
 
@@ -71,6 +72,7 @@ app.include_router(
     tags=["search"]
 )
 app.include_router(consent_router, prefix="/api")
+app.include_router(memory_router, prefix="/api")
 
 @app.get("/")
 def root():

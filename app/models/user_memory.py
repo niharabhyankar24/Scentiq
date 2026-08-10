@@ -22,7 +22,7 @@ are cleared but the row itself stays (the other axes may
 still be in use).
 """
 
-from sqlalchemy import Column, Integer, DateTime, ForeignKey, Text
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, Text, String
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from app.database import Base
@@ -49,6 +49,7 @@ class UserMemory(Base):
     collection_derank_counters = Column(
         JSONB, nullable=False, default=dict
     )
+    collection_fingerprint = Column(String(64), nullable=True)
 
     # --- Wishlist axis ---
     wishlist_paragraph = Column(Text, nullable=True)
@@ -59,7 +60,7 @@ class UserMemory(Base):
     wishlist_derank_counters = Column(
         JSONB, nullable=False, default=dict
     )
-
+    wishlist_fingerprint = Column(String(64), nullable=True)
     # --- Search axis ---
     search_paragraph = Column(Text, nullable=True)
     search_observations = Column(
@@ -69,5 +70,5 @@ class UserMemory(Base):
     search_derank_counters = Column(
         JSONB, nullable=False, default=dict
     )
-
+    search_fingerprint = Column(String(64), nullable=True)
     user = relationship("User", back_populates="memory")
