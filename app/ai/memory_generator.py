@@ -24,11 +24,11 @@ import time
 from collections import Counter, defaultdict
 from datetime import datetime
 from typing import Optional
-import secrets
 
-from anthropic import Anthropic
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
+
+from app.ai.claude_client import call_claude
 
 from app.models.user import User
 from app.models.user_memory import UserMemory
@@ -330,10 +330,11 @@ Output format — return ONLY raw JSON:
 
 
 # --- Claude call ------------------------------------------
-# Isolated so per-axis logic doesn't have to worry about
-# API mechanics. Returns parsed dict or None on failure.
-# Failure never propagates — the caller keeps the stored
-# axis on failure and moves on.
+# All API mechanics live in claude_client. This wrapper adds
+# only the memory-specific parts: payload assembly and the
+# shape check on the parsed JSON. Returns the parsed dict or
+# None on any failure — the caller keeps the stored axis and
+# moves on. Failure detail is already logged by the client.
 
 def _call_claude_for_axis(
     system_prompt: str,
@@ -343,9 +344,9 @@ def _call_claude_for_axis(
     deranked_tags: list[str],
 ) -> Optional[dict]:
     """
-    Call Claude for one axis. Returns parsed JSON with
-    keys 'paragraph' and 'observations', or None on any
-    error (API failure, malformed response, empty output).
+    Call Claude for one axis via the standardized client.
+    Returns parsed JSON with keys 'paragraph' and
+    'observations', or None on any failure.
     """
     user_payload = {
         "axis": axis_name,
@@ -353,36 +354,27 @@ def _call_claude_for_axis(
         "raw_signals": signals,
         "deranked_tags": deranked_tags,
     }
-    try:
-        client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-        response = client.messages.create(
-            model=CLAUDE_MODEL,
-            max_tokens=MAX_TOKENS_PER_AXIS,
-            system=system_prompt,
-            messages=[{
-                "role": "user",
-                "content": json.dumps(user_payload, ensure_ascii=False),
-            }],
-        )
-        raw = response.content[0].text.strip()
-        clean = raw.replace("```json", "").replace("```", "").strip()
-        parsed = json.loads(clean)
-
-        # Minimum viable shape check. If Claude returned
-        # something structurally wrong, treat as failure.
-        if not isinstance(parsed, dict):
-            return None
-        if "paragraph" not in parsed or "observations" not in parsed:
-            return None
-        if not isinstance(parsed["observations"], list):
-            return None
-        return parsed
-    except Exception as e:
-        print(
-            f"[MEMORY GEN] Claude call failed for {axis_name}: {e}",
-            flush=True
-        )
+    result = call_claude(
+        system_prompt=system_prompt,
+        user_content=json.dumps(user_payload, ensure_ascii=False),
+        call_site=f"memory:{axis_name}",
+        expect_json=True,
+        model=CLAUDE_MODEL,
+        max_tokens=MAX_TOKENS_PER_AXIS,
+    )
+    if not result.success:
         return None
+
+    parsed = result.data
+    # Shape check stays here (not in the client) because
+    # the expected keys are memory-specific.
+    if not isinstance(parsed, dict):
+        return None
+    if "paragraph" not in parsed or "observations" not in parsed:
+        return None
+    if not isinstance(parsed["observations"], list):
+        return None
+    return parsed
 
 
 # --- De-rank enforcement ----------------------------------
@@ -410,8 +402,8 @@ def _apply_derank_filter(
     # Assign sequential ids AFTER filtering, so ids are
     # dense (0, 1, 2...) with no gaps from filtered rows.
     return [
-        {"id": f"o_{secrets.token_hex(3)}", "text": o["text"], "tag": o["tag"]}
-        for o in cleaned
+        {"id": i, "text": o["text"], "tag": o["tag"]}
+        for i, o in enumerate(cleaned)
     ]
 
 
@@ -464,16 +456,22 @@ def _regenerate_axis(
     memory_row: UserMemory,
     system_prompt: str,
     precomputed: dict,
-) -> bool:
+) -> str:
     """
     Regenerate ONE axis if its fingerprint has changed.
-    Returns True if a Claude call was made, False if skipped.
+
+    Returns a status string the response carries to the
+    frontend:
+      "cached" — fingerprint matched, no Claude call.
+      "fresh"  — regenerated successfully in this request.
+      "stale"  — regeneration attempted but failed; the
+                 stored content (if any) is what we have.
     """
     stored_fingerprint = getattr(
         memory_row, f"{axis}_fingerprint", None
     )
     if stored_fingerprint == current_fingerprint:
-        return False   # nothing changed, keep stored memory
+        return "cached"   # nothing changed, keep stored memory
 
     # Read de-rank counters and derive the "banned" tags.
     counters = getattr(memory_row, f"{axis}_derank_counters", {}) or {}
@@ -493,7 +491,7 @@ def _regenerate_axis(
         # Failure. Keep whatever's already stored for this
         # axis, don't touch the fingerprint. Next call
         # tries again.
-        return False
+        return "stale"
 
     cleaned_observations = _apply_derank_filter(
         parsed.get("observations", []),
@@ -504,7 +502,7 @@ def _regenerate_axis(
     setattr(memory_row, f"{axis}_observations", cleaned_observations)
     setattr(memory_row, f"{axis}_last_updated", datetime.utcnow())
     setattr(memory_row, f"{axis}_fingerprint", current_fingerprint)
-    return True
+    return "fresh"
 
 
 # --- Main entry point -------------------------------------
@@ -559,6 +557,11 @@ def regenerate_memory(user: User, db: Session) -> dict:
         ),
     ]
 
+    # Per-axis outcome for this request; carried into the
+    # response so the frontend can render subtle state hints
+    # ("couldn't refresh") without alarming detail.
+    statuses: dict[str, str] = {}
+
     for name, consented, gather, fingerprint_fn, precompute, prompt in axes:
         if not consented:
             _clear_axis(memory_row, name)
@@ -570,10 +573,12 @@ def regenerate_memory(user: User, db: Session) -> dict:
 
         if not rate_limit_ok:
             # Rate limited — do not attempt regeneration.
-            # Keep whatever is stored for this axis.
+            # Stored content is what the user gets; from
+            # their point of view that's simply not-fresh.
+            statuses[name] = "stale"
             continue
 
-        _regenerate_axis(
+        statuses[name] = _regenerate_axis(
             axis=name,
             signals=signals,
             current_fingerprint=current_fp,
@@ -585,7 +590,7 @@ def regenerate_memory(user: User, db: Session) -> dict:
     db.commit()
     db.refresh(memory_row)
 
-    return _to_response_shape(memory_row, user)
+    return _to_response_shape(memory_row, user, statuses)
 
 
 # --- Response shaping -------------------------------------
@@ -593,7 +598,11 @@ def regenerate_memory(user: User, db: Session) -> dict:
 # MemoryResponse. Axes the user hasn't consented to appear
 # as None so the frontend can skip rendering them.
 
-def _to_response_shape(memory_row: UserMemory, user: User) -> dict:
+def _to_response_shape(
+    memory_row: UserMemory,
+    user: User,
+    statuses: dict[str, str],
+) -> dict:
     """Shape the row into the response the endpoint returns."""
 
     def axis_block(axis: str, consented: bool) -> Optional[dict]:
@@ -601,6 +610,9 @@ def _to_response_shape(memory_row: UserMemory, user: User) -> dict:
             return None
         paragraph = getattr(memory_row, f"{axis}_paragraph")
         if paragraph is None:
+            # Opted in but nothing generatable (no data yet,
+            # or first generation failed). Null either way —
+            # the user doesn't need failure detail.
             return None
         return {
             "paragraph": paragraph,
@@ -610,6 +622,7 @@ def _to_response_shape(memory_row: UserMemory, user: User) -> dict:
             "last_updated": getattr(
                 memory_row, f"{axis}_last_updated"
             ),
+            "status": statuses.get(axis, "cached"),
         }
 
     return {

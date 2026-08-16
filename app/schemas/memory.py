@@ -47,6 +47,11 @@ class AxisMemory(BaseModel):
     paragraph: str
     observations: list[Observation]
     last_updated: datetime
+    # Status of this axis in THIS response:
+    #   fresh   — regenerated during this request
+    #   cached  — fingerprint matched, no Claude call needed
+    #   stale   — regeneration attempted but failed; showing last-known content
+    status: str
 
     model_config = ConfigDict(from_attributes=True)
 
