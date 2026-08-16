@@ -21,6 +21,7 @@ code they govern. Section markers keep concerns separated.
 import os
 import json
 import time
+import secrets
 from collections import Counter, defaultdict
 from datetime import datetime
 from typing import Optional
@@ -399,11 +400,13 @@ def _apply_derank_filter(
         if tag in deranked_tags:
             continue
         cleaned.append({"text": text, "tag": tag})
-    # Assign sequential ids AFTER filtering, so ids are
-    # dense (0, 1, 2...) with no gaps from filtered rows.
+    # Assign short random ids AFTER filtering. Ids are
+    # internal identifiers — the frontend displays list
+    # position as the visible number, not the id itself.
+    # Random ids avoid renumbering races on delete.
     return [
-        {"id": i, "text": o["text"], "tag": o["tag"]}
-        for i, o in enumerate(cleaned)
+        {"id": f"o_{secrets.token_hex(3)}", "text": o["text"], "tag": o["tag"]}
+        for o in cleaned
     ]
 
 
