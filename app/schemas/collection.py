@@ -19,6 +19,16 @@ class CollectionCreate(BaseModel):
     purchase_price: Optional[float] = None
     purchase_date: Optional[datetime] = None
 
+class CollectionUpdate(BaseModel):
+    """Schema for updating editable fields on a collection entry.
+    All fields optional — only sent fields are updated."""
+
+    bottle_status: Optional[BottleStatus] = None
+    snapshot_summary: Optional[str] = Field(None, max_length=200)
+    personal_rating: Optional[int] = Field(None, ge=1, le=10)
+    personal_notes: Optional[str] = None
+    purchase_price: Optional[float] = None
+    purchase_date: Optional[datetime] = None
 
 class CollectionResponse(BaseModel):
     """Schema for returning a collection entry to the client."""

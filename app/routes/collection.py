@@ -4,7 +4,7 @@ from app.database import get_db
 from app.models.collection import Collection, Wishlist, UserPreferences
 from app.models.user import User
 from app.schemas.collection import (
-    CollectionCreate, CollectionResponse,
+    CollectionCreate, CollectionResponse, CollectionUpdate,
     WishlistCreate, WishlistResponse,
     UserPreferencesCreate, UserPreferencesResponse
 )
@@ -185,13 +185,22 @@ def get_preferences(
         )
     return prefs
 
-@router.delete("/collection/{fragrance_id}")
-def remove_from_collection(
+@router.patch(
+    "/collection/{fragrance_id}",
+    response_model=CollectionResponse
+)
+def update_collection_item(
     fragrance_id: int,
+    payload: CollectionUpdate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Remove a fragrance from the authenticated user's collection."""
+    """
+    Update editable fields on a collection entry (rating,
+    bottle status, notes, etc). Only fields present in the
+    request are changed — partial update. Unset fields are
+    left as they are.
+    """
     entry = db.query(Collection).filter(
         Collection.user_id == current_user.id,
         Collection.fragrance_id == fragrance_id
@@ -201,10 +210,17 @@ def remove_from_collection(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Fragrance not found in your collection"
         )
-    db.delete(entry)
-    db.commit()
-    return {"message": "Removed from collection"}
 
+    # exclude_unset=True → only fields the client actually
+    # sent get updated. A missing field means "leave alone",
+    # not "set to null".
+    updates = payload.model_dump(exclude_unset=True)
+    for field, value in updates.items():
+        setattr(entry, field, value)
+
+    db.commit()
+    db.refresh(entry)
+    return entry
 
 @router.delete("/wishlist/{fragrance_id}")
 def remove_from_wishlist(
