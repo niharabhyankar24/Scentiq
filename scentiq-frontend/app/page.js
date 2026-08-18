@@ -1,184 +1,314 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import FragranceCard from "./components/FragranceCard"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 
-const TOP_PICKS = [
-  {
-    label: "For date nights",
-    query: "warm sensual fragrance for evening romantic occasions"
-  },
-  {
-    label: "Office friendly",
-    query: "clean professional fragrance for daytime work environment"
-  },
-  {
-    label: "Skin scents",
-    query: "close to skin intimate subtle fragrance for private wear"
-  },
-  {
-    label: "Cold weather",
-    query: "warm amber oriental fragrance for cold winter days"
-  },
-  {
-    label: "Fresh & clean",
-    query: "fresh aquatic citrus fragrance for hot summer days"
-  },
-  {
-    label: "Classic masculine",
-    query: "sophisticated woody masculine fragrance with elegant character"
+// --- Rating control -------------------------------------------------
+// Interactive 1-10 rating. Muted traffic-light bands:
+//   1-3 red (weak) · 4-7 amber/gold (mid) · 8-10 green (strong)
+// Monochrome at rest, band color on hover (ghost) and when selected.
+// Sends a NARROW payload ({personal_rating: n}) so it can never
+// clobber other collection fields. Optimistic: updates immediately,
+// reverts on failure.
+function RatingControl({ fragranceId, value, onChange }) {
+  const [hover, setHover] = useState(null)
+  const [saving, setSaving] = useState(false)
+
+  // Which band a given score falls into.
+  const band = (v) => (v <= 3 ? "r" : v <= 7 ? "a" : "g")
+
+  // Solid fill (selected) — muted, desaturated to fit the aesthetic.
+  const solid = {
+    r: "#a85a4a", // dusty terracotta
+    a: "#c9a254", // the app's existing gold
+    g: "#6f9463", // muted sage
   }
-]
-
-
-export default function Home() {
-  const [query, setQuery] = useState("")
-  const [results, setResults] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const [activePick, setActivePick] = useState(null)
-
-  // Debounced keyword search when user types
-  useEffect(() => {
-    if (!query.trim()) {
-      if (!activePick) setResults([])
-      return
-    }
-    // Clear active pick if user starts typing
-    if (activePick) setActivePick(null)
-    const timer = setTimeout(() => {
-      searchFragrances(query)
-    }, 300)
-    return () => clearTimeout(timer)
-  }, [query])
-
-  async function searchFragrances(searchQuery) {
-    setLoading(true)
-    setError(null)
-    try {
-      const response = await fetch(
-        `/api/fragrances/search?q=${encodeURIComponent(searchQuery)}`
-      )
-      if (!response.ok) throw new Error("Search failed")
-      const data = await response.json()
-      setResults(data)
-    } catch (err) {
-      setError("Something went wrong. Please try again.")
-      setResults([])
-    } finally {
-      setLoading(false)
-    }
+  // Ghost fill (hover preview) — same hues, translucent.
+  const ghost = {
+    r: "rgba(168,90,74,0.28)",
+    a: "rgba(201,162,84,0.28)",
+    g: "rgba(111,148,99,0.28)",
   }
 
-  async function selectTopPick(pick) {
-    // Toggle off if already active
-    if (activePick?.label === pick.label) {
-      setActivePick(null)
-      setResults([])
-      return
-    }
-
-    setActivePick(pick)
-    setQuery("")
-    setLoading(true)
-    setError(null)
+  async function persist(newValue) {
+    const token = localStorage.getItem("token")
+    const previous = value
+    onChange(newValue) // optimistic
+    setSaving(true)
     try {
-      const response = await fetch("/api/search/semantic", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: pick.query })
+      const res = await fetch(`/api/me/collection/${fragranceId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ personal_rating: newValue }),
       })
-      if (!response.ok) throw new Error("Search failed")
-      const data = await response.json()
-      setResults(data.results || [])
-    } catch (err) {
-      setError("Something went wrong. Please try again.")
-      setResults([])
+      if (!res.ok) throw new Error()
+    } catch {
+      onChange(previous) // revert on failure
     } finally {
-      setLoading(false)
+      setSaving(false)
     }
   }
 
   return (
-    <div>
-      <div className="text-center mb-8 pt-8">
-        <h1 className="font-serif text-4xl sm:text-5xl font-normal text-neutral-900 dark:text-white mb-3 tracking-tight">
-          Discover fragrances honestly
-        </h1>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-10">
-          Real community insights, not marketing copy
-        </p>
+    <div
+      className="flex items-center gap-2"
+      onClick={(e) => e.stopPropagation()} // don't trigger card navigation
+    >
+      <span className="text-[11px] uppercase tracking-widest text-gray-400 dark:text-gray-500 min-w-[48px]">
+        Rating
+      </span>
+      <div className="flex gap-[3px]" onMouseLeave={() => setHover(null)}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => {
+          const isFilledBySelection = value && n <= value
+          const isFilledByHover = hover && n <= hover
 
-        <input
-          type="text"
-          placeholder="Search by name, brand, or note..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          className="w-full max-w-xl px-5 py-3.5 text-base bg-white dark:bg-[#1a1918] border border-neutral-200 dark:border-white/[0.08] rounded-xl outline-none text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:border-amber-500 dark:focus:border-amber-500 transition-colors"
-        />
+          let style = {}
+          let textClass =
+            "text-gray-400 dark:text-gray-500 border-gray-200 dark:border-gray-700"
+
+          if (isFilledByHover) {
+            // hover preview: ghost fill of the hovered band
+            style = { background: ghost[band(hover)] }
+            textClass =
+              "text-gray-900 dark:text-white border-gray-200 dark:border-gray-700"
+          } else if (isFilledBySelection) {
+            // committed: solid fill of the selected band
+            style = {
+              background: solid[band(value)],
+              borderColor: solid[band(value)],
+            }
+            textClass = "text-[#100f0d] border-transparent"
+          }
+
+          return (
+            <button
+              key={n}
+              disabled={saving}
+              style={style}
+              onMouseEnter={() => setHover(n)}
+              onClick={() => persist(n)}
+              className={`w-[26px] h-[26px] flex items-center justify-center text-xs rounded-md border-[0.5px] transition-colors ${textClass}`}
+            >
+              {n}
+            </button>
+          )
+        })}
       </div>
+      {value ? (
+        <button
+          title="Clear rating"
+          disabled={saving}
+          onClick={() => persist(null)}
+          className="text-[15px] leading-none text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors ml-1"
+        >
+          &times;
+        </button>
+      ) : null}
+    </div>
+  )
+}
 
-      {/* Top picks chips */}
-      <div className="flex flex-wrap justify-center gap-2 mb-12">
-        {TOP_PICKS.map(pick => (
-          <button
-            key={pick.label}
-            onClick={() => selectTopPick(pick)}
-            className={`text-xs px-4 py-2 rounded-full border transition-colors ${
-              activePick?.label === pick.label
-                ? "border-amber-500 bg-amber-500/10 text-amber-500"
-                : "border-neutral-200 dark:border-white/[0.08] text-neutral-600 dark:text-neutral-400 hover:border-amber-500/40 hover:text-amber-500"
-            }`}
-          >
-            {pick.label}
-          </button>
-        ))}
-      </div>
+export default function CollectionPage() {
+  const router = useRouter()
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-      {loading && (
-        <p className="text-center text-sm text-neutral-500 dark:text-neutral-400">
-          Searching...
-        </p>
-      )}
+  useEffect(() => {
+    loadCollection()
+  }, [])
 
-      {error && (
-        <p className="text-center text-sm text-red-500">
-          {error}
-        </p>
-      )}
+  async function loadCollection() {
+    const token = localStorage.getItem("token")
+    if (!token) {
+      router.push("/login")
+      return
+    }
+    try {
+      const res = await fetch("/api/me/collection", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) throw new Error("Failed to load collection")
+      const data = await res.json()
 
-      {!loading && results.length > 0 && (
-        <div>
-          {activePick && (
-            <p className="text-xs uppercase tracking-widest text-amber-500 mb-3">
-              {activePick.label}
-            </p>
-          )}
-          <p className="text-xs text-neutral-500 dark:text-neutral-500 mb-3">
-            {results.length} result{results.length !== 1 ? "s" : ""}
-          </p>
-          <div className="flex flex-col gap-2">
-            {results.map(fragrance => (
-              <FragranceCard
-                key={fragrance.id}
-                fragrance={fragrance}
-              />
-            ))}
-          </div>
+      const enriched = await Promise.all(
+        data.map(async (item) => {
+          const fragranceRes = await fetch(
+            `/api/fragrances/${item.fragrance_id}`
+          )
+          const fragrance = fragranceRes.ok
+            ? await fragranceRes.json()
+            : null
+          return { ...item, fragrance }
+        })
+      )
+      setItems(enriched)
+    } catch (err) {
+      setError("Something went wrong loading your collection.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function removeFromCollection(fragranceId) {
+    const token = localStorage.getItem("token")
+    try {
+      const res = await fetch(`/api/me/collection/${fragranceId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (res.ok) {
+        setItems((prev) =>
+          prev.filter((item) => item.fragrance_id !== fragranceId)
+        )
+      }
+    } catch {}
+  }
+
+  // Update one item's rating in local state (used by RatingControl
+  // for optimistic updates and reverts).
+  function setItemRating(fragranceId, newRating) {
+    setItems((prev) =>
+      prev.map((item) =>
+        item.fragrance_id === fragranceId
+          ? { ...item, personal_rating: newRating }
+          : item
+      )
+    )
+  }
+
+  const bottleStatusColor = {
+    full: "bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300",
+    mostly_full:
+      "bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300",
+    half: "bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300",
+    low: "bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-300",
+    empty: "bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400",
+  }
+
+  if (loading) {
+    return (
+      <div className="max-w-3xl mx-auto">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-100 dark:bg-gray-800 rounded w-48 mb-8" />
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="h-24 bg-gray-100 dark:bg-gray-800 rounded-xl mb-3"
+            />
+          ))}
         </div>
-      )}
+      </div>
+    )
+  }
 
-      {!loading && (query || activePick) && results.length === 0 && !error && (
-        <p className="text-center text-sm text-neutral-500 dark:text-neutral-400">
-          No fragrances found
-        </p>
-      )}
+  if (error) {
+    return (
+      <div className="max-w-3xl mx-auto text-center py-20">
+        <p className="text-gray-400 text-sm">{error}</p>
+      </div>
+    )
+  }
 
-      {!query && !activePick && (
-        <div className="text-center mt-16">
-          <p className="text-sm text-neutral-400 dark:text-neutral-500">
-            Start typing to search, or pick a category above
+  return (
+    <div className="max-w-3xl mx-auto">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-medium text-gray-900 dark:text-white mb-1">
+            My Collection
+          </h1>
+          <p className="text-sm text-gray-400">
+            {items.length} fragrance{items.length !== 1 ? "s" : ""}
           </p>
+        </div>
+      </div>
+
+      {items.length === 0 ? (
+        <div className="text-center py-20">
+          <p className="text-gray-400 text-sm mb-4">
+            Your collection is empty.
+          </p>
+          <Link href="/">
+            <button className="text-sm px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+              Search fragrances
+            </button>
+          </Link>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {items.map((item) => (
+            <div
+              key={item.id}
+              className="border border-gray-100 dark:border-gray-800 rounded-xl p-5"
+            >
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      router.push(`/fragrance/${item.fragrance_id}`)
+                    }
+                  >
+                    <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">
+                      {item.fragrance?.brand}
+                    </p>
+                    <h3 className="text-base font-medium text-gray-900 dark:text-white mb-2">
+                      {item.fragrance?.name} {item.fragrance?.concentration}
+                    </h3>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {item.bottle_status && (
+                        <span
+                          className={`text-xs px-3 py-1 rounded-full ${
+                            bottleStatusColor[item.bottle_status] ||
+                            "bg-gray-100 dark:bg-gray-800 text-gray-500"
+                          }`}
+                        >
+                          {item.bottle_status.replace("_", " ")}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Rating control — outside the navigation click region */}
+                  <RatingControl
+                    fragranceId={item.fragrance_id}
+                    value={item.personal_rating}
+                    onChange={(newRating) =>
+                      setItemRating(item.fragrance_id, newRating)
+                    }
+                  />
+
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      router.push(`/fragrance/${item.fragrance_id}`)
+                    }
+                  >
+                    {item.snapshot_summary && (
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-3 leading-relaxed italic">
+                        "{item.snapshot_summary}"
+                      </p>
+                    )}
+                    {item.personal_notes && (
+                      <p className="text-xs text-gray-400 mt-2 leading-relaxed">
+                        {item.personal_notes}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={() => removeFromCollection(item.fragrance_id)}
+                  className="text-xs text-gray-300 dark:text-gray-600 hover:text-red-400 dark:hover:text-red-400 transition-colors ml-4 mt-1"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
