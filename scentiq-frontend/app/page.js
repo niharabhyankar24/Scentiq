@@ -83,9 +83,13 @@ export default function Home() {
     setLoading(true)
     setError(null)
     try {
+      const token = localStorage.getItem("token")
       const response = await fetch("/api/search/semantic", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({ query: pick.query })
       })
       if (!response.ok) throw new Error("Search failed")
