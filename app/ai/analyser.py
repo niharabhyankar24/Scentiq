@@ -88,6 +88,78 @@ Scales:
 - Value for money: poor / fair / good / exceptional
 - Sentiment: positive / mixed / polarised / negative
 
+CONTEXT SCORES:
+You must also assign ten context scores, each a float from
+0.0 to 1.0, judging the fragrance's suitability for various
+settings. Score from the COMMUNITY CONSENSUS in the source
+material, not from your own taste. If the community is
+divided on an axis, score toward the middle (that division
+is itself the honest answer) and let confidence_score
+reflect the uncertainty. If the source material genuinely
+does not support a judgment on an axis, still give your best
+estimate from the notes and performance, but keep
+confidence_score low.
+
+Nine axes are UNIPOLAR: 0.0 = not at all suitable, 1.0 =
+perfectly suitable. One axis (day_night) is BIPOLAR.
+
+- day_night (BIPOLAR): 0.0 = strictly a daytime scent,
+  1.0 = strictly a nighttime scent, 0.5 = works either.
+  Bright / fresh / sharp / citrusy leans day. Rich / dark /
+  sweet / boozy / heavy leans night.
+
+- office_safe: suitability for a shared enclosed workplace
+  over a full day. Rewards restraint: low projection,
+  inoffensive non-polarising notes, does not impose on
+  people nearby. Loud, heavy, or divisive scents score low.
+
+- date_safe: suitability for close, intimate settings —
+  something with an alluring, mysterious edge that draws a
+  person in. Rewards warmth that is NOT aggressively or
+  hot-spicy (sharp spice is off-putting up close): boozy
+  notes, controlled/soft spice, and sweetness WITH DEPTH
+  rather than flat sugar. Penalised at BOTH extremes: too
+  loud/screechy/harsh up close, OR too clean/sterile/
+  functional to be alluring. A plain fresh "shower-clean"
+  scent scores LOW here by default — inoffensive is not
+  the same as seductive.
+
+- daily_wear_safe: how wearable without thought, casually,
+  frequently, including weekends. Rewards versatility and
+  inoffensiveness. Loud, formal, or highly distinctive
+  scents that draw attention score low. (Distinct from
+  office_safe: a loud but casual scent can be high here
+  yet low on office_safe.)
+
+- gym_safe: suitability for working out — fresh, clean,
+  inoffensive when heated by sweat, not precious. Rewards
+  sporty freshness. Heavy, powdery, sweet, or "too nice to
+  blast at the gym" scents score low.
+
+- formal_occasion: suitability for formal / statement events
+  (weddings, galas, special evenings) where presence is
+  expected and appropriate. Rewards opulence, refinement,
+  gravitas. Casual / sporty / fresh scents score low; here
+  being noticed is the point, so restraint is less rewarded.
+
+- season_summer: performance in heat. Fresh / citrus /
+  aquatic / light scores high; heavy / sweet / ambery /
+  cloying-in-heat scores low.
+
+- season_winter: performance in cold. Warm / rich / sweet /
+  spicy / ambery that projects through cold air scores high;
+  light / fresh / thin that vanishes in cold scores low.
+
+- season_fall: suitability for crisp cooler transitional
+  weather. Woody / spicy / warm-but-not-suffocating / earthy
+  scores high. Seasons may overlap — a scent can score high
+  on both fall and winter, or both spring and summer.
+
+- season_spring: suitability for mild fresh transitional
+  weather. Green / floral / airy / fresh-but-slightly-warmer
+  -than-peak-summer scores high. Heavy winter scents and
+  blazing-summer sport scents score lower.
+
 """
 
 USER_PROMPT_TEMPLATE = """
@@ -134,6 +206,18 @@ Return a JSON object with exactly this structure:
     "fragrances explicitly named in source as similar\
  or alternative"
   ],
+  "context_scores": {{
+    "day_night": 0.0,
+    "office_safe": 0.0,
+    "date_safe": 0.0,
+    "daily_wear_safe": 0.0,
+    "gym_safe": 0.0,
+    "formal_occasion": 0.0,
+    "season_summer": 0.0,
+    "season_fall": 0.0,
+    "season_winter": 0.0,
+    "season_spring": 0.0
+  }},
   "confidence_score": 0.0
 }}
 """
@@ -195,7 +279,7 @@ def call_claude(user_prompt: str) -> dict:
     client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
     response = client.messages.create(
         model="claude-sonnet-4-5",
-        max_tokens=1000,
+        max_tokens=1500,
         system=SYSTEM_PROMPT,
         messages=[
             {"role": "user", "content": user_prompt}
@@ -207,6 +291,54 @@ def call_claude(user_prompt: str) -> dict:
         return json.loads(clean)
     except json.JSONDecodeError as e:
         raise ValueError(f"Claude returned invalid JSON: {e}\n{raw}")
+
+
+# The ten context-score columns, kept in one place so the
+# parser and any future validation iterate the same list.
+CONTEXT_SCORE_KEYS = [
+    "day_night",
+    "office_safe",
+    "date_safe",
+    "daily_wear_safe",
+    "gym_safe",
+    "formal_occasion",
+    "season_summer",
+    "season_fall",
+    "season_winter",
+    "season_spring",
+]
+
+
+def _clean_score(value) -> float | None:
+    """
+    Coerce one context score to a float in [0, 1].
+    Returns None if the value is missing or unusable, so a
+    malformed score becomes 'not scored' (NULL) rather than
+    a wrong number. NULL and 0.0 mean different things
+    downstream, so we never silently substitute 0.0.
+    """
+    if value is None:
+        return None
+    try:
+        f = float(value)
+    except (TypeError, ValueError):
+        return None
+    if f < 0.0:
+        return 0.0
+    if f > 1.0:
+        return 1.0
+    return f
+
+
+def _apply_context_scores(record: AIInsights, insights: dict) -> None:
+    """
+    Write the ten context scores from the insights payload
+    onto the record. Missing or malformed scores are left as
+    None (not scored) rather than defaulted to 0.0.
+    """
+    scores = insights.get("context_scores") or {}
+    for key in CONTEXT_SCORE_KEYS:
+        setattr(record, key, _clean_score(scores.get(key)))
 
 
 def store_insights(
@@ -240,7 +372,8 @@ def store_insights(
         existing.sources_used = json.dumps(sources_used)
         existing.last_updated = datetime.utcnow()
         existing.character_full = insights.get("character_full")
-        
+        _apply_context_scores(existing, insights)
+
     else:
         record = AIInsights(
             fragrance_id=fragrance_id,
@@ -253,6 +386,7 @@ def store_insights(
             last_updated=datetime.utcnow(),
             character_full=insights.get("character_full"),
         )
+        _apply_context_scores(record, insights)
         db.add(record)
 
     db.commit()
