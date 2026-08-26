@@ -11,6 +11,8 @@ import app.models.collection
 import app.models.ai_insights
 import app.models.pricing
 import app.models.similarity
+import app.models.user_memory
+import app.models.search_query
 
 
 @celery_app.task(bind=True, ignore_result=True)
