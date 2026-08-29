@@ -62,6 +62,12 @@ export default function Navbar() {
         <div className="flex items-center gap-6">
           <Link href="/collection"><span className={linkClass}>Collection</span></Link>
           <Link href="/wishlist"><span className={linkClass}>Wishlist</span></Link>
+          {loggedIn && (
+            <Link href="/signature"><span className={linkClass}>Signature</span></Link>
+          )}
+          {loggedIn && (
+            <Link href="/settings"><span className={linkClass}>Settings</span></Link>
+          )}
           {isAdmin && (
             <Link href="/admin">
               <span className="text-sm text-amber-500 hover:text-amber-600 transition-colors">
