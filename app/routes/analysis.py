@@ -9,7 +9,7 @@ from app.database import get_db
 from app.models.fragrance import Fragrance
 from app.models.ai_insights import AIInsights
 from app.tasks import analyse_fragrance_task
-from app.utils.dependencies import get_current_user
+from app.utils.dependencies import get_current_user, get_admin_user
 from app.models.user import User
 from celery.result import AsyncResult
 from app.worker import celery_app
@@ -26,7 +26,7 @@ def trigger_analysis(
     request: Request,
     fragrance_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_admin_user)
 ):
     """
     Trigger background AI analysis for a fragrance.

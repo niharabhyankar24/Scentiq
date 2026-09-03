@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
-from app.utils.dependencies import get_current_user
+from app.utils.dependencies import get_current_user, get_admin_user
 from app.ai.similarity import (
     embed_fragrance,
     calculate_similarity_for_fragrance,
@@ -22,7 +22,7 @@ router = APIRouter(tags=["Similarity"])
 def generate_fragrance_embedding(
     fragrance_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_admin_user)
 ):
     """
     Generate and store embedding for a fragrance.
@@ -49,7 +49,7 @@ def generate_fragrance_embedding(
 def calculate_similarity(
     fragrance_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_admin_user)
 ):
     """
     Calculate and store similarity scores between this

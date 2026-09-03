@@ -1,128 +1,66 @@
-# from typing import List
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from sqlalchemy import or_
+"""
+Password hashing.
 
-from app.database import get_db
-from app.models.fragrance import Fragrance, ScentFamily
-from app.schemas.fragrance import (
-    FragranceCreate, FragranceResponse,
-    ScentFamilyCreate, ScentFamilyResponse
-)
+We pepper passwords with a server-side secret AND hash with
+bcrypt. The subtlety: bcrypt only reads the first 72 BYTES of
+its input. The old scheme prepended the pepper to the password
+(PEPPER + password) and hashed that directly — which meant a
+long pepper ate into the 72-byte budget, silently truncating
+the actual password. Two different passwords sharing a prefix
+could then collide (and very long passwords could error).
 
-router = APIRouter()
+Fix: HMAC-SHA256 the password using the pepper as the key,
+then base64 the digest. That produces a FIXED 44-character
+input to bcrypt no matter how long the password or pepper is —
+so bcrypt never truncates anything meaningful, and the pepper
+is still mixed in cryptographically.
 
-@router.post("/scent-families", response_model=ScentFamilyResponse)
-def create_scent_family(family: ScentFamilyCreate, db: Session = Depends(get_db)):
-    """Create a new scent family entry."""
-    db_family = ScentFamily(**family.model_dump())
-    db.add(db_family)
-    db.commit()
-    db.refresh(db_family)
-    return db_family
+Note: this changes the hashing scheme, so hashes produced by
+the old code will NOT verify against the new code. With a small
+user base the simplest path is a forced password reset. If that
+isn't acceptable, add a hash_version column and re-hash on next
+successful login.
+"""
 
-@router.get("/scent-families", response_model=list[ScentFamilyResponse])
-def get_scent_families(db: Session = Depends(get_db)):
-    """Return all scent families."""
-    return db.query(ScentFamily).all()
+import os
+import hmac
+import base64
+import hashlib
 
-@router.post("/fragrances", response_model=FragranceResponse)
-def create_fragrance(fragrance: FragranceCreate, db: Session = Depends(get_db)):
-    """Create a new fragrance in the master catalogue."""
-    db_fragrance = Fragrance(**fragrance.model_dump())
-    db.add(db_fragrance)
-    db.commit()
-    db.refresh(db_fragrance)
-    return db_fragrance
+from passlib.context import CryptContext
+from dotenv import load_dotenv
 
-@router.get("/fragrances", response_model=list[FragranceResponse])
-def get_fragrances(db: Session = Depends(get_db)):
-    """Return all fragrances in the catalogue."""
-    return db.query(Fragrance).all()
+load_dotenv()
 
-@router.get("/fragrances/search")
-def search_fragrances(
-    q: str,
-    db: Session = Depends(get_db)
-):
-    """Search fragrances by name, brand, or combined query."""
-    terms = q.strip().split()
-    
-    if len(terms) == 1:
-        term = f"%{terms[0]}%"
-        results = db.query(Fragrance).filter(
-            or_(
-                Fragrance.name.ilike(term),
-                Fragrance.brand.ilike(term)
-            )
-        ).limit(20).all()
-    else:
-        filters = []
-        for term in terms:
-            t = f"%{term}%"
-            filters.append(
-                or_(
-                    Fragrance.name.ilike(t),
-                    Fragrance.brand.ilike(t)
-                )
-            )
-        from sqlalchemy import and_
-        results = db.query(Fragrance).filter(
-            and_(*filters)
-        ).limit(20).all()
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-    return [
-        {
-            "id": f.id,
-            "brand": f.brand,
-            "name": f.name,
-            "concentration": f.concentration,
-            "house_tier": f.house_tier,
-            "scent_family_name": (
-                f.scent_family.name
-                if f.scent_family else None
-            ),
-            "image_url": f.image_url
-        }
-        for f in results
-    ]
-    
-@router.get("/fragrances/brand/{brand_name}")
-def get_fragrances_by_brand(
-    brand_name: str,
-    db: Session = Depends(get_db)
-):
-    """Return all fragrances for a specific brand."""
-    results = db.query(Fragrance).filter(
-        Fragrance.brand.ilike(f"%{brand_name}%")
-    ).order_by(Fragrance.name).all()
+PEPPER = os.getenv("PASSWORD_PEPPER")
+if not PEPPER:
+    raise RuntimeError(
+        "PASSWORD_PEPPER is not set in environment variables."
+    )
 
-    if not results:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No fragrances found for brand: {brand_name}"
-        )
 
-    return [
-        {
-            "id": f.id,
-            "brand": f.brand,
-            "name": f.name,
-            "concentration": f.concentration,
-            "house_tier": f.house_tier,
-            "scent_family_name": (
-                f.scent_family.name
-                if f.scent_family else None
-            ),
-            "image_url": f.image_url
-        }
-        for f in results
-    ]
-    
-@router.get("/fragrances/{fragrance_id}", response_model=FragranceResponse)
-def get_fragrance(fragrance_id: int, db: Session = Depends(get_db)):
-    """Return a single fragrance by ID."""
-    fragrance = db.query(Fragrance).filter(Fragrance.id == fragrance_id).first()
-    if not fragrance:
-        raise HTTPException(status_code=404, detail="Fragrance not found")
-    return fragrance
+def _prehash(plain_password: str) -> str:
+    """
+    HMAC-SHA256 the password with the pepper as key, base64 the
+    result. Always returns 44 chars — well under bcrypt's 72-byte
+    limit — regardless of input length. This is what actually
+    gets bcrypt-hashed.
+    """
+    digest = hmac.new(
+        PEPPER.encode("utf-8"),
+        plain_password.encode("utf-8"),
+        hashlib.sha256,
+    ).digest()
+    return base64.b64encode(digest).decode("ascii")
+
+
+def hash_password(plain_password: str) -> str:
+    """Hash a plain text password (peppered via HMAC) with bcrypt."""
+    return pwd_context.hash(_prehash(plain_password))
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify a plain text password against a stored bcrypt hash."""
+    return pwd_context.verify(_prehash(plain_password), hashed_password)
