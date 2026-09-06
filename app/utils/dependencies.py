@@ -27,8 +27,15 @@ def get_current_user(
     payload = decode_access_token(credentials.credentials)
     if payload is None:
         raise credentials_exception
-    user_id: int = int(payload.get("sub"))
-    if user_id is None:
+    # The "sub" claim may be missing or non-numeric on a
+    # malformed/forged token. Parse defensively so that turns
+    # into a clean 401, not an uncaught 500.
+    sub = payload.get("sub")
+    if sub is None:
+        raise credentials_exception
+    try:
+        user_id = int(sub)
+    except (TypeError, ValueError):
         raise credentials_exception
     user = db.query(User).filter(User.id == user_id).first()
     if user is None:
