@@ -145,6 +145,16 @@ def delete_observation(
     flag_modified(memory_row, f"{axis}_observations")
     flag_modified(memory_row, f"{axis}_derank_counters")
 
+    # Clear this axis's fingerprint so the next memory read
+    # regenerates the paragraph instead of serving the cached
+    # one. Without this, the fingerprint still matches the
+    # source data, regeneration is skipped, and the paragraph
+    # keeps describing the observation the user just deleted.
+    # (Note: the *theme* only disappears once its tag crosses
+    # the de-rank threshold of 2 — a single deletion refreshes
+    # the paragraph but may still touch the theme, by design.)
+    setattr(memory_row, f"{axis}_fingerprint", None)
+
     db.commit()
 
     # 204 means "success, no body" — that's the standard
