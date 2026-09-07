@@ -15,7 +15,13 @@ import app.models.user_memory
 import app.models.search_query
 
 
-@celery_app.task(bind=True, ignore_result=True)
+# Note: results are intentionally NOT ignored. The status
+# endpoint (/analysis/status/{job_id}) polls this task's
+# state via AsyncResult, which reads STARTED/SUCCESS/FAILURE
+# from the result backend. ignore_result=True would suppress
+# that state, making every poll read PENDING forever even
+# after the task finished. bind=True stays for self access.
+@celery_app.task(bind=True)
 def analyse_fragrance_task(self, fragrance_id: int) -> dict:
     """
     Background task that runs the full AI analysis pipeline
