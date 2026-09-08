@@ -4,6 +4,24 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
+// FastAPI returns `detail` as a plain string for most errors
+// (e.g. "Invalid credentials"), but as an ARRAY of
+// {loc, msg, type} objects for 422 validation errors — which
+// is what the new password rules produce. Rendering that array
+// directly crashes React, so normalize every shape to a string.
+function extractErrorMessage(data) {
+  if (!data || data.detail == null) {
+    return "Something went wrong. Please try again."
+  }
+  const detail = data.detail
+  if (typeof detail === "string") return detail
+  if (Array.isArray(detail)) {
+    const msgs = detail.map((e) => e && e.msg).filter(Boolean)
+    if (msgs.length > 0) return msgs.join(" ")
+  }
+  return "Something went wrong. Please try again."
+}
+
 export default function LoginPage() {
   const router = useRouter()
   const [mode, setMode] = useState("login")
@@ -36,7 +54,7 @@ export default function LoginPage() {
       const data = await res.json()
 
       if (!res.ok) {
-        setError(data.detail || "Something went wrong.")
+        setError(extractErrorMessage(data))
         return
       }
 
@@ -107,6 +125,11 @@ export default function LoginPage() {
             placeholder="••••••••"
             className="w-full px-4 py-2.5 text-sm border border-gray-200 dark:border-gray-700 rounded-lg outline-none bg-white dark:bg-gray-950 text-gray-900 dark:text-white placeholder-gray-300 dark:placeholder-gray-600 focus:border-gray-400 dark:focus:border-gray-500 transition-colors"
           />
+          {mode === "register" && (
+            <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-1.5">
+              At least 8 characters, with a letter and a number.
+            </p>
+          )}
         </div>
 
         {error && (
