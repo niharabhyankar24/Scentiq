@@ -37,6 +37,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [activePick, setActivePick] = useState(null)
+  const [focused, setFocused] = useState(false)
 
   // Debounced keyword search when user types
   useEffect(() => {
@@ -44,7 +45,6 @@ export default function Home() {
       if (!activePick) setResults([])
       return
     }
-    // Clear active pick if user starts typing
     if (activePick) setActivePick(null)
     const timer = setTimeout(() => {
       searchFragrances(query)
@@ -71,7 +71,6 @@ export default function Home() {
   }
 
   async function selectTopPick(pick) {
-    // Toggle off if already active
     if (activePick?.label === pick.label) {
       setActivePick(null)
       setResults([])
@@ -103,88 +102,121 @@ export default function Home() {
     }
   }
 
+  const hasResults = !loading && results.length > 0
+  const isEmpty = !query && !activePick
+
   return (
-    <div>
-      <div className="text-center mb-8 pt-8">
-        <h1 className="font-serif text-4xl sm:text-5xl font-normal text-neutral-900 dark:text-white mb-3 tracking-tight">
+    <div className="relative">
+      {/* Warm radial glow behind the hero — gives the flat near-black
+          depth so the minimal layout reads as deliberate, not empty.
+          Pointer-events-none so it never interferes with interaction. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-[520px] max-w-3xl
+                   bg-[radial-gradient(ellipse_at_center,rgba(201,162,84,0.10),transparent_70%)]
+                   blur-2xl"
+      />
+
+      {/* Hero cluster — headline, tagline, search, chips grouped tightly
+          as one intentional unit in the upper-middle. */}
+      <div className="relative flex flex-col items-center text-center pt-14 sm:pt-20">
+        <h1 className="font-serif text-5xl sm:text-6xl font-normal text-neutral-900 dark:text-white tracking-tight leading-[1.05]">
           Discover fragrances honestly
         </h1>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-10">
+        <p className="mt-4 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 tracking-wide">
           Real community insights, not marketing copy
         </p>
 
-        <input
-          type="text"
-          placeholder="Search by name, brand, or note..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          className="w-full max-w-xl px-5 py-3.5 text-base bg-white dark:bg-[#1a1918] border border-neutral-200 dark:border-white/[0.08] rounded-xl outline-none text-neutral-900 dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:border-amber-500 dark:focus:border-amber-500 transition-colors"
-        />
-      </div>
-
-      {/* Top picks chips */}
-      <div className="flex flex-wrap justify-center gap-2 mb-12">
-        {TOP_PICKS.map(pick => (
-          <button
-            key={pick.label}
-            onClick={() => selectTopPick(pick)}
-            className={`text-xs px-4 py-2 rounded-full border transition-colors ${
-              activePick?.label === pick.label
-                ? "border-amber-500 bg-amber-500/10 text-amber-500"
-                : "border-neutral-200 dark:border-white/[0.08] text-neutral-600 dark:text-neutral-400 hover:border-amber-500/40 hover:text-amber-500"
+        {/* Search — the hero action. Confident surface, real border,
+            gold focus ring so it clearly invites a touch. */}
+        <div className="w-full max-w-xl mt-9">
+          <div
+            className={`group relative rounded-2xl transition-all duration-300 ${
+              focused
+                ? "shadow-[0_0_0_1px_rgba(201,162,84,0.5),0_8px_40px_-12px_rgba(201,162,84,0.25)]"
+                : "shadow-[0_8px_40px_-16px_rgba(0,0,0,0.6)]"
             }`}
           >
-            {pick.label}
-          </button>
-        ))}
-      </div>
-
-      {loading && (
-        <p className="text-center text-sm text-neutral-500 dark:text-neutral-400">
-          Searching...
-        </p>
-      )}
-
-      {error && (
-        <p className="text-center text-sm text-red-500">
-          {error}
-        </p>
-      )}
-
-      {!loading && results.length > 0 && (
-        <div>
-          {activePick && (
-            <p className="text-xs uppercase tracking-widest text-amber-500 mb-3">
-              {activePick.label}
-            </p>
-          )}
-          <p className="text-xs text-neutral-500 dark:text-neutral-500 mb-3">
-            {results.length} result{results.length !== 1 ? "s" : ""}
-          </p>
-          <div className="flex flex-col gap-2">
-            {results.map(fragrance => (
-              <FragranceCard
-                key={fragrance.id}
-                fragrance={fragrance}
-              />
-            ))}
+            <input
+              type="text"
+              placeholder="Search by name, brand, or note…"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              className="w-full px-6 py-4 text-base rounded-2xl outline-none
+                         bg-neutral-50 dark:bg-[#1c1b19]
+                         border border-neutral-200 dark:border-white/[0.10]
+                         text-neutral-900 dark:text-white
+                         placeholder:text-neutral-400 dark:placeholder:text-neutral-500
+                         focus:border-transparent transition-colors"
+            />
           </div>
         </div>
-      )}
 
-      {!loading && (query || activePick) && results.length === 0 && !error && (
-        <p className="text-center text-sm text-neutral-500 dark:text-neutral-400">
-          No fragrances found
-        </p>
-      )}
-
-      {!query && !activePick && (
-        <div className="text-center mt-16">
-          <p className="text-sm text-neutral-400 dark:text-neutral-500">
-            Start typing to search, or pick a category above
-          </p>
+        {/* Chips — curated entry points. Warmer, a touch larger,
+            gold-tinted hover so they invite rather than filter. */}
+        <div className="flex flex-wrap justify-center gap-2.5 mt-6">
+          {TOP_PICKS.map(pick => (
+            <button
+              key={pick.label}
+              onClick={() => selectTopPick(pick)}
+              className={`text-[13px] px-4 py-2 rounded-full border transition-all duration-200 ${
+                activePick?.label === pick.label
+                  ? "border-amber-500 bg-amber-500/[0.12] text-amber-500"
+                  : "border-neutral-200 dark:border-white/[0.09] text-neutral-600 dark:text-neutral-300 hover:border-amber-500/50 hover:bg-amber-500/[0.06] hover:text-amber-500"
+              }`}
+            >
+              {pick.label}
+            </button>
+          ))}
         </div>
-      )}
+      </div>
+
+      {/* Results / states */}
+      <div className="relative mt-14">
+        {loading && (
+          <p className="text-center text-sm text-neutral-500 dark:text-neutral-400">
+            Searching…
+          </p>
+        )}
+
+        {error && (
+          <p className="text-center text-sm text-red-500">
+            {error}
+          </p>
+        )}
+
+        {hasResults && (
+          <div>
+            {activePick && (
+              <p className="text-xs uppercase tracking-widest text-amber-500 mb-3">
+                {activePick.label}
+              </p>
+            )}
+            <p className="text-xs text-neutral-500 dark:text-neutral-500 mb-3">
+              {results.length} result{results.length !== 1 ? "s" : ""}
+            </p>
+            <div className="flex flex-col gap-2">
+              {results.map(fragrance => (
+                <FragranceCard key={fragrance.id} fragrance={fragrance} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {!loading && (query || activePick) && results.length === 0 && !error && (
+          <p className="text-center text-sm text-neutral-500 dark:text-neutral-400">
+            No fragrances found
+          </p>
+        )}
+
+        {isEmpty && (
+          <p className="text-center text-xs text-neutral-400 dark:text-neutral-600 tracking-wide">
+            Start typing, or pick a category above
+          </p>
+        )}
+      </div>
     </div>
   )
 }
