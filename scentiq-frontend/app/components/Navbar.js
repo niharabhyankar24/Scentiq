@@ -49,10 +49,21 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white dark:bg-[#100f0d] border-b border-neutral-200 dark:border-white/[0.06]">
       <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <svg width="14" height="20" viewBox="0 0 14 20" fill="none" aria-hidden="true">
-            <rect x="4.5" y="0.5" width="5" height="3" rx="0.5" stroke="#c9a254" strokeWidth="1" />
-            <path d="M3 6 L11 6 L11.5 19 L2.5 19 Z" stroke="#c9a254" strokeWidth="1" fill="none" />
+        <Link href="/" className="flex items-center gap-2.5">
+          {/* Gold-S monogram — matches the favicon (app/icon.svg). */}
+          <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true">
+            <rect x="2" y="2" width="60" height="60" rx="13" fill="#100f0d" stroke="#c9a254" strokeWidth="2.5" />
+            <text
+              x="32"
+              y="46"
+              textAnchor="middle"
+              fontFamily="'Playfair Display', Georgia, 'Times New Roman', serif"
+              fontWeight="500"
+              fontSize="40"
+              fill="#c9a254"
+            >
+              S
+            </text>
           </svg>
           <span className="font-serif text-2xl tracking-tight text-neutral-900 dark:text-white">
             Scentiq
