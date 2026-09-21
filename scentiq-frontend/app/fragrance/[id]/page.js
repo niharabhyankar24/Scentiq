@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
+import BlindBuyCard from "../../components/BlindBuyCard"
 
 export default function FragranceDetail() {
   const { id } = useParams()
@@ -283,7 +284,13 @@ export default function FragranceDetail() {
 
 {/* Header — two column layout */}
 <div className="flex gap-8 mb-10 items-start">
-
+{insights && (
+  <BlindBuyCard
+    sentiment={insights.sentiment}
+    polarisingElements={polarising}
+    confidenceScore={insights.confidence_score}
+  />
+)}
   {/* Left — bottle image */}
   <div className="flex-shrink-0">
     {fragrance.image_url ? (
