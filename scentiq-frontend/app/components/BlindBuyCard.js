@@ -3,42 +3,52 @@
 // Blind-buy risk card.
 //
 // The honest-friend signal: how safe is this to buy *unsniffed*?
-// Driven entirely by data the detail page already holds —
-//   sentiment            ("positive" | "mixed" | "polarised" | "negative")
-//   polarising_elements  (the specific things people split on)
-//   confidence_score     (how much community data backed the verdict)
 //
-// Confidence gates the verdict: a "polarised" call on thin data isn't
-// "high risk", it's "unknown" — we never fake certainty either way,
-// and we never let absence-of-data read as safety.
+// Verdict logic, in priority order — divisiveness EVIDENCE beats an
+// optimistic label. The polarising_elements array is the strongest
+// signal: if the community lists specific things it fights about,
+// the fragrance is divisive no matter what the one-word sentiment
+// says. "Safe blind buy" is deliberately HARD to earn, because the
+// cost of a wrong "safe" (someone blind-buys a divisive scent and
+// hates it) is exactly the harm this feature exists to prevent.
 //
-// Objective-only for now; a personalized line (taste axes) can be
-// layered in later without changing this contract.
+//   confidence < MIN            -> unknown (never let thin data read as safe)
+//   2+ polarising elements      -> high risk (overrides any sentiment)
+//   sentiment "polarised"       -> high risk
+//   1 polarising element        -> some risk
+//   sentiment "mixed"/"negative"-> some risk
+//   sentiment "positive" + no
+//     polarising elements + conf -> safe blind buy
+//   anything else               -> unknown (fail safe, never "safe")
 
-const MIN_CONFIDENCE = 0.4 // below this, we don't trust the verdict
+const MIN_CONFIDENCE = 0.4
 
 function computeVerdict(sentiment, polarising, confidence) {
   const conf = typeof confidence === "number" ? confidence : 0
-  const s = (sentiment || "").toLowerCase()
+  const s = (sentiment || "").trim().toLowerCase()
+  const elements = Array.isArray(polarising) ? polarising.filter(Boolean) : []
+  const count = elements.length
 
-  // Not enough evidence to judge divisiveness — honest unknown.
-  // Absence of data is NOT safety.
-  if (conf < MIN_CONFIDENCE || !s) {
+  // Not enough evidence — honest unknown. Absence is NOT safety.
+  if (conf < MIN_CONFIDENCE) {
     return { level: "unknown" }
   }
 
-  if (s === "polarised") {
-    return { level: "high" }
-  }
-  if (s === "mixed" || s === "negative") {
-    return { level: "some" }
-  }
-  // positive, with real confidence behind it
-  return { level: "safe" }
+  // Divisiveness evidence takes precedence over the sentiment label.
+  if (count >= 2) return { level: "high" }
+  if (s === "polarised") return { level: "high" }
+
+  if (count === 1) return { level: "some" }
+  if (s === "mixed" || s === "negative") return { level: "some" }
+
+  // Safe must be affirmatively earned: positive AND nothing the
+  // community fights about AND real confidence behind it.
+  if (s === "positive" && count === 0) return { level: "safe" }
+
+  // Anything we can't confidently place is unknown, never safe.
+  return { level: "unknown" }
 }
 
-// Visual + copy config per verdict. Colors mirror the rating
-// control (terracotta / gold / sage) for a consistent language.
 const STYLES = {
   high: {
     dot: "#a85a4a",
@@ -86,10 +96,10 @@ export default function BlindBuyCard({
   )
   const style = STYLES[level]
 
-  // Body copy per level. For high/some risk we name the specific
-  // polarising elements (up to two) — that's what makes it read
-  // like a knowledgeable friend rather than a generic label.
-  const named = (polarisingElements || []).slice(0, 2)
+  const named = (Array.isArray(polarisingElements) ? polarisingElements : [])
+    .filter(Boolean)
+    .slice(0, 2)
+
   let body
   if (level === "high" || level === "some") {
     body = (
@@ -100,9 +110,7 @@ export default function BlindBuyCard({
             {" "}— chiefly its{" "}
             {named.map((el, i) => (
               <span key={i}>
-                <span className="text-gray-900 dark:text-gray-100">
-                  {el}
-                </span>
+                <span className="text-gray-900 dark:text-gray-100">{el}</span>
                 {i < named.length - 1 ? " and " : ""}
               </span>
             ))}
